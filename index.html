@@ -7,86 +7,23 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;background:#f4f6f9;color:#1a1a2e;min-height:100vh}
-.header{background:linear-gradient(135deg,#2d8cff 0%,#0b5cff 100%);color:#fff;padding:24px 40px;display:flex;align-items:center;gap:16px;box-shadow:0 2px 12px rgba(0,0,0,.1)}
+.header{background:linear-gradient(135deg,#2d8cff 0%,#0b5cff 100%);color:#fff;padding:24px 40px;display:flex;align-items:center;gap:16px;box-shadow:0 2px 12px rgba(0,0,0,0.1)}
 .header h1{font-size:22px;font-weight:600}
 .header p{font-size:13px;opacity:.85;margin-top:2px}
-.container{max-width:1400px;margin:0 auto;padding:32px 24px}
-
-.panel{background:#fff;border-radius:16px;padding:24px 28px;margin-bottom:24px;box-shadow:0 2px 12px rgba(0,0,0,.06)}
-.panel h2{font-size:18px;font-weight:700;margin-bottom:4px}
+.container{max-width:1100px;margin:0 auto;padding:32px 24px}
+.panel{background:#fff;border-radius:16px;padding:24px 28px;margin-bottom:24px;box-shadow:0 2px 12px rgba(0,0,0,0.06)}
+.panel h2{font-size:18px;font-weight:700;margin-bottom:6px}
 .panel .sub{font-size:13px;color:#6b7280;margin-bottom:16px}
-
-.form-row{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end}
+.form-row{display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap}
 .fg{display:flex;flex-direction:column;gap:4px}
-.fg label{font-size:11px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:.5px}
-.fg input,.fg select{padding:9px 12px;border:1.5px solid #e0e4ea;border-radius:8px;font-size:14px}
-.fg input:focus,.fg select:focus{outline:none;border-color:#2d8cff}
-.fg input[type=text]{width:200px}
-.fg select{width:200px}
-
-.btn{padding:9px 18px;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s}
+.fg label{font-size:11px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:.4px}
+.fg input,.fg select{padding:8px 12px;border:1.5px solid #e0e4ea;border-radius:8px;font-size:14px;outline:none;transition:border .2s}
+.fg input:focus,.fg select:focus{border-color:#2d8cff}
+.btn{padding:9px 18px;border-radius:8px;border:none;font-size:13px;font-weight:600;cursor:pointer;transition:all .15s}
 .btn-p{background:#2d8cff;color:#fff}
-.btn-p:hover{background:#1a7aef}
+.btn-p:hover{background:#1a6fdd}
 .btn-d{background:#fee8e8;color:#e53e3e;font-size:11px;padding:5px 10px}
 .btn-d:hover{background:#fdd}
-
-.sc{background:#fff;border-radius:14px;margin-bottom:14px;box-shadow:0 2px 8px rgba(0,0,0,.05);border:2px solid transparent;overflow:hidden}
-.sc.open{border-color:#2d8cff}
-.sc-head{padding:14px 18px;display:flex;align-items:center;gap:12px;cursor:pointer}
-.sc-head:hover{background:#f8fafc}
-.sc-head h3{font-size:15px;font-weight:600;flex:1}
-.sc-badge{font-size:10px;padding:3px 9px;border-radius:10px;font-weight:700;text-transform:uppercase}
-.sc-badge.elementary{background:#e8f5e9;color:#2e7d32}
-.sc-badge.standard{background:#e3f2fd;color:#1565c0}
-.sc-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px}
-.sc-icon.elementary{background:#e8f5e9}
-.sc-icon.standard{background:#e3f2fd}
-.chev{font-size:18px;color:#9ca3af;transition:transform .2s}
-.sc.open .chev{transform:rotate(90deg)}
-.sc-body{padding:0 18px 18px;display:none}
-.sc.open .sc-body{display:block}
-
-.sec{margin-bottom:16px}
-.sec h4{font-size:12px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;padding-bottom:5px;border-bottom:1px solid #f0f2f5}
-
-.srow{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;margin-bottom:5px;background:#f8fafc}
-.srow .slbl{font-size:13px;font-weight:500;min-width:170px;display:flex;align-items:center;gap:8px}
-.srow .rm-space{width:22px;height:22px;border-radius:50%;border:none;background:#f0f0f0;color:#999;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
-.srow .rm-space:hover{background:#fee8e8;color:#e53e3e}
-.srow input[type=number]{width:55px;padding:5px 6px;border:1.5px solid #e0e4ea;border-radius:6px;font-size:13px;text-align:center}
-.srow input[type=number]:focus{outline:none;border-color:#2d8cff}
-.srow select{padding:5px 8px;border:1.5px solid #e0e4ea;border-radius:6px;font-size:12px;min-width:150px;background:#fff}
-.srow select:focus{outline:none;border-color:#2d8cff}
-.srow select.a-common{border-color:#66bb6a;background:#f1f8e9}
-.srow select.a-pro{border-color:#42a5f5;background:#e3f2fd}
-.srow select.a-unlimited{border-color:#ab47bc;background:#f3e5f5}
-.srow select.a-basic{border-color:#bdbdbd;background:#fafafa}
-
-.ugrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:8px}
-
-.subtotal{margin-top:10px;padding:10px 14px;background:#f0f7ff;border-radius:8px;font-size:13px}
-.subtotal strong{color:#1565c0}
-
-.legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px}
-.legend-card{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border-radius:10px;background:#f8fafc}
-.lbadge{padding:3px 8px;border-radius:5px;font-size:10px;font-weight:700;white-space:nowrap}
-.lbadge.common{background:#e8f5e9;color:#2e7d32}
-.lbadge.pro{background:#e3f2fd;color:#1565c0}
-.lbadge.unlimited{background:#f3e5f5;color:#7b1fa2}
-.lbadge.basic{background:#f5f5f5;color:#616161}
-.ldet{font-size:11px;color:#4a5568;line-height:1.4}
-.ldet b{display:block;font-size:12px;color:#1a1a2e;margin-bottom:1px}
-
-.sum-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:14px}
-.sum-item{background:#f8fafc;border-radius:12px;padding:14px;text-align:center}
-.sum-item .n{font-size:24px;font-weight:700;color:#2d8cff}
-.sum-item .l{font-size:10px;color:#6b7280;text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
-.sum-item .c{font-size:12px;color:#1a1a2e;margin-top:3px;font-weight:500}
-.sum-total{display:flex;justify-content:space-between;align-items:center;padding-top:14px;border-top:2px solid #f0f2f5}
-.sum-total .tl{font-size:15px;font-weight:600}
-.sum-total .tc{font-size:22px;font-weight:700;color:#2d8cff}
-
-.school-count{font-size:12px;color:#2d8cff;font-weight:600;margin-top:8px}
 .btn-export{background:#e8f5e9;color:#2e7d32}
 .btn-export:hover{background:#c8e6c9}
 .btn-save{background:#e3f2fd;color:#1565c0}
@@ -95,38 +32,86 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica N
 .btn-load:hover{background:#e1bee7}
 .btn-link{background:#fff3e0;color:#e65100}
 .btn-link:hover{background:#ffe0b2}
-.btn-paste{background:#fff8e1;color:#f57f17}
-.btn-paste:hover{background:#fff9c4}
+.btn-share{background:#e8eaf6;color:#283593}
+.btn-share:hover{background:#c5cae9}
+.school-count{font-size:12px;color:#2d8cff;font-weight:600;margin-top:8px}
 
-@media(max-width:768px){.container{padding:16px}.form-row{flex-direction:column}.fg input[type=text],.fg select{width:100%}.ugrid{grid-template-columns:1fr}}
+/* School Cards */
+.sc{background:#fff;border-radius:14px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,0.05);overflow:hidden;border:1.5px solid #f0f2f5}
+.sc-head{display:flex;align-items:center;gap:12px;padding:14px 18px;cursor:pointer;transition:background .15s}
+.sc-head:hover{background:#f8fafc}
+.sc-head h3{font-size:15px;font-weight:600;flex:1}
+.sc-badge{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:600}
+.sc-badge.elementary{background:#e8f5e9;color:#2e7d32}
+.sc-badge.standard{background:#e3f2fd;color:#1565c0}
+.sc-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px}
+.sc-icon.elementary{background:#e8f5e9}
+.sc-icon.standard{background:#e3f2fd}
+.chev{font-size:20px;color:#aaa;transition:transform .2s}
+.sc.open .chev{transform:rotate(90deg)}
+.sc-body{padding:0 18px 18px;display:none}
+.sc.open .sc-body{display:block}
+
+.sec{margin-bottom:16px}
+.sec h4{font-size:12px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;padding-bottom:5px;border-bottom:1px solid #f0f2f5}
+
+/* Space and User rows - SINGLE COLUMN, consistent layout */
+.srow{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:8px;margin-bottom:5px;background:#f8fafc}
+.srow .slbl{font-size:13px;font-weight:500;min-width:200px;display:flex;align-items:center;gap:8px;flex-shrink:0}
+.srow input[type=number]{width:60px;padding:5px 8px;border:1.5px solid #e0e4ea;border-radius:6px;font-size:13px;text-align:center}
+.srow select{padding:5px 8px;border:1.5px solid #e0e4ea;border-radius:6px;font-size:12px;min-width:160px}
+.srow .rm-space{width:22px;height:22px;border-radius:50%;border:none;background:#f0f0f0;color:#999;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0}
+.srow .rm-space:hover{background:#fee8e8;color:#e53e3e}
+
+/* Subtotal */
+.subtotal{margin-top:10px;padding:10px 14px;background:#f0f7ff;border-radius:8px;font-size:13px;color:#1a1a2e}
+
+/* Summary */
+.sum-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:14px}
+.sum-item{background:#f8fafc;border-radius:10px;padding:14px;text-align:center}
+.sum-item .n{font-size:26px;font-weight:700}
+.sum-item.si-common .n{color:#e65100}
+.sum-item.si-pro .n{color:#1565c0}
+.sum-item.si-unlimited .n{color:#2e7d32}
+.sum-item.si-basic .n{color:#6b7280}
+.sum-item .l{font-size:11px;color:#6b7280;margin-top:3px;text-transform:uppercase}
+.sum-item .c{font-size:12px;color:#1a1a2e;margin-top:3px;font-weight:500}
+.sum-total{display:flex;justify-content:space-between;align-items:center;padding-top:14px;border-top:2px solid #f0f2f5}
+.sum-total .tl{font-size:15px;font-weight:600}
+.sum-total .tc{font-size:22px;font-weight:700;color:#2d8cff}
+
+/* Legend */
+.legend{background:#fff;border-radius:16px;padding:20px 24px;margin-bottom:24px;box-shadow:0 2px 12px rgba(0,0,0,0.06)}
+.legend h3{font-size:14px;font-weight:700;margin-bottom:12px}
+.legend-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
+.legend-card{padding:12px 14px;border-radius:10px;border:1.5px solid #f0f2f5}
+.legend-card .lname{font-size:16px;font-weight:700;margin-bottom:4px}
+.legend-card .lname.common{color:#e65100}
+.legend-card .lname.pro{color:#1565c0}
+.legend-card .lname.unlimited{color:#2e7d32}
+.legend-card .lname.basic{color:#6b7280}
+.legend-card .lprice{font-size:13px;font-weight:600}
+.legend-card .ldesc{font-size:11px;color:#6b7280;margin-top:4px;line-height:1.4}
+
+@media(max-width:768px){
+  .container{padding:16px}
+  .form-row{flex-direction:column}
+  .srow .slbl{min-width:140px}
+}
 </style>
 </head>
 <body>
 
 <div class="header">
-  <div>
-    <h1>K-12 Zoom Phone Licensing Explorer</h1>
-    <p>Plan your district's Zoom Phone deployment &mdash; school by school</p>
-  </div>
+  <svg viewBox="0 0 40 40" fill="none" width="36" height="36" style="flex-shrink:0"><rect width="40" height="40" rx="10" fill="white" fill-opacity="0.15"/><path d="M12 16v8a2 2 0 002 2h8l4 4V16a2 2 0 00-2-2H14a2 2 0 00-2 2z" fill="white"/></svg>
+  <div><h1>K-12 Zoom Phone Licensing Explorer</h1><p>Configure your district's Zoom Phone deployment</p></div>
 </div>
 
 <div class="container">
 
-<!-- Legend -->
+<!-- District Setup -->
 <div class="panel">
-  <h2>License Types</h2>
-  <p class="sub">Reference guide for available Zoom Phone license tiers</p>
-  <div class="legend">
-    <div class="legend-card"><span class="lbadge common">Common Area</span><div class="ldet"><b>$4.00/mo</b>Ext-to-Ext, 911, Metered Calls, Voicemail. One phone/analog device. Classrooms, lobbies, cafeterias.</div></div>
-    <div class="legend-card"><span class="lbadge pro">Pro</span><div class="ldet"><b>$8.00/mo</b>Metered Calls, Advanced PBX. Up to 3 phones + mobile + softphone. Location or user-based.</div></div>
-    <div class="legend-card"><span class="lbadge unlimited">Unlimited</span><div class="ldet"><b>$16.00/mo</b>Unlimited Calls, SMS/MMS (DID), Advanced PBX. Faculty, admins, nurses, dept heads.</div></div>
-    <div class="legend-card"><span class="lbadge basic">Basic</span><div class="ldet"><b>Free</b>Ext-to-Ext, 911, Voicemail. No PSTN. Mobile/softphone only. Paras, bus drivers, custodians.</div></div>
-  </div>
-</div>
-
-<!-- District + Add School -->
-<div class="panel" id="districtPanel">
-  <h2>&#127963;&#65039; Your District</h2>
+  <h2>&#127979; District Setup</h2>
   <p class="sub">Name your district, then add schools. Each school is configured independently.</p>
   <div class="form-row" style="margin-bottom:20px">
     <div class="fg"><label>District Name</label><input type="text" id="dName" placeholder="e.g. Springfield Public Schools" style="width:320px"></div>
@@ -147,7 +132,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica N
   </div>
 </div>
 
-<!-- School Cards Container -->
+<!-- School Cards -->
 <div id="schoolCards"></div>
 
 <!-- Summary -->
@@ -162,37 +147,38 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica N
     <button class="btn btn-load" type="button" id="loadJsonBtn">&#128194; Load Config (JSON)</button>
     <button class="btn btn-link" type="button" id="copyCodeBtn">&#128203; Copy Config Code</button>
     <button class="btn btn-link" type="button" id="pasteCodeBtn" style="background:#fff8e1;color:#f57f17">&#128229; Load Config Code</button>
-    <button class="btn btn-link" type="button" id="shareBtn" style="background:#e8eaf6;color:#283593">&#128279; Generate Shareable Link</button>
+    <button class="btn btn-share" type="button" id="shareBtn">&#128279; Generate Shareable Link</button>
   </div>
   <input type="file" id="fileInput" accept=".json" style="display:none">
   <div id="saveStatus" style="font-size:11px;color:#6b7280;margin-top:6px"></div>
 </div>
 
+<!-- License Legend -->
+<div class="legend">
+  <h3>&#128218; License Reference</h3>
+  <div class="legend-grid">
+    <div class="legend-card"><div class="lname common">Common Area</div><div class="lprice" style="color:#e65100">$4.00/mo</div><div class="ldesc">Ext-to-Ext, 911, Metered Calls, Voicemail. One phone or analog device. For classrooms, lobbies, cafeterias.</div></div>
+    <div class="legend-card"><div class="lname pro">Pro</div><div class="lprice" style="color:#1565c0">$8.00/mo</div><div class="ldesc">Ext-to-Ext, 911, Metered Calls, Voicemail, Advanced PBX. Up to 3 phones + mobile + softphone. For locations or users.</div></div>
+    <div class="legend-card"><div class="lname unlimited">Unlimited</div><div class="lprice" style="color:#2e7d32">$16.00/mo</div><div class="ldesc">Ext-to-Ext, 911, Unlimited Calls, Voicemail, SMS/MMS, DID, Advanced PBX. Up to 3 phones + mobile + softphone. For faculty, admins, dept heads.</div></div>
+    <div class="legend-card"><div class="lname basic">Basic</div><div class="lprice" style="color:#6b7280">Free</div><div class="ldesc">Ext-to-Ext, 911, Voicemail, Basic PBX. Mobile app + softphone only. No PSTN. For paras, bus drivers, custodians.</div></div>
+  </div>
+</div>
+
 </div>
 
 <script>
-// ============================================================
-// K-12 Zoom Phone Licensing Explorer
-// All logic in a single IIFE to avoid global scope pollution
-// ============================================================
-(function(){
-"use strict";
-
-// --- DATA ---
-var PRICES = {common:4, pro:8, unlimited:16, basic:0};
-
+var PRICES = {common:4, pro:8, unlimited:16, basic:0, none:0};
 var SPACE_OPTS = [
-  {id:'none', label:'\u2014 Select \u2014'},
-  {id:'common', label:'Common Area ($4/mo)'},
-  {id:'pro', label:'Pro ($8/mo)'},
-  {id:'unlimited', label:'Unlimited ($16/mo)'},
-  {id:'basic', label:'Basic (Free)'}
+  {val:'common',lbl:'Common Area ($4/mo)'},
+  {val:'pro',lbl:'Pro ($8/mo)'},
+  {val:'unlimited',lbl:'Unlimited ($16/mo)'},
+  {val:'none',lbl:'None'}
 ];
 var USER_OPTS = [
-  {id:'none', label:'\u2014 Select \u2014'},
-  {id:'pro', label:'Pro ($8/mo)'},
-  {id:'unlimited', label:'Unlimited ($16/mo)'},
-  {id:'basic', label:'Basic (Free)'}
+  {val:'unlimited',lbl:'Unlimited ($16/mo)'},
+  {val:'pro',lbl:'Pro ($8/mo)'},
+  {val:'basic',lbl:'Basic (Free)'},
+  {val:'none',lbl:'None'}
 ];
 
 var DEFS = {
@@ -210,10 +196,10 @@ var DEFS = {
     ],
     users:[
       {label:'Principal / VP', emoji:'\uD83D\uDC54', lic:'unlimited'},
-      {label:'Secretary / Admin', emoji:'\uD83D\uDCBC', lic:'unlimited'},
-      {label:'Teachers (mobile)', emoji:'\uD83D\uDC69\u200D\uD83C\uDFEB', lic:'basic'},
-      {label:'Nurse', emoji:'\uD83E\uDE7A', lic:'unlimited'},
+      {label:'Secretary / Admin', emoji:'\uD83D\uDCCB', lic:'unlimited'},
+      {label:'Teachers (mobile)', emoji:'\uD83D\uDC69\u200D\uD83C\uDFEB', lic:'pro'},
       {label:'Counselor', emoji:'\uD83E\uDDE0', lic:'pro'},
+      {label:'Nurse', emoji:'\uD83E\uDE7A', lic:'pro'},
       {label:'Custodians', emoji:'\uD83E\uDDF9', lic:'basic'},
       {label:'Cafeteria Workers', emoji:'\uD83E\uDDD1\u200D\uD83C\uDF73', lic:'basic'},
       {label:'Paraprofessionals', emoji:'\uD83E\uDD1D', lic:'basic'}
@@ -235,86 +221,77 @@ var DEFS = {
     ],
     users:[
       {label:'Principal / VP', emoji:'\uD83D\uDC54', lic:'unlimited'},
-      {label:'Department Heads', emoji:'\uD83D\uDCCB', lic:'unlimited'},
-      {label:'Secretary / Admin Staff', emoji:'\uD83D\uDCBC', lic:'unlimited'},
-      {label:'Teachers (mobile)', emoji:'\uD83D\uDC69\u200D\uD83C\uDFEB', lic:'basic'},
-      {label:'Counselors', emoji:'\uD83E\uDDE0', lic:'pro'},
-      {label:'Nurse', emoji:'\uD83E\uDE7A', lic:'unlimited'},
-      {label:'Coaches', emoji:'\uD83C\uDFC3', lic:'basic'},
+      {label:'Secretary / Admin', emoji:'\uD83D\uDCCB', lic:'unlimited'},
+      {label:'Department Heads', emoji:'\uD83D\uDC65', lic:'unlimited'},
+      {label:'Teachers (mobile)', emoji:'\uD83D\uDC69\u200D\uD83C\uDFEB', lic:'pro'},
+      {label:'Guidance Counselors', emoji:'\uD83E\uDDE0', lic:'pro'},
+      {label:'Nurse', emoji:'\uD83E\uDE7A', lic:'pro'},
+      {label:'Coaches', emoji:'\uD83C\uDFC5', lic:'pro'},
+      {label:'Security', emoji:'\uD83D\uDEE1\uFE0F', lic:'pro'},
       {label:'Custodians', emoji:'\uD83E\uDDF9', lic:'basic'},
       {label:'Cafeteria Workers', emoji:'\uD83E\uDDD1\u200D\uD83C\uDF73', lic:'basic'},
-      {label:'Security', emoji:'\uD83D\uDEE1\uFE0F', lic:'pro'}
+      {label:'Paraprofessionals', emoji:'\uD83E\uDD1D', lic:'basic'}
     ]
   }
 };
 
-// --- STATE ---
-var schools = [];
-var openIdx = -1;
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 
-// --- DOM REFS (these elements are static, never replaced) ---
-var sNameEl = document.getElementById('sName');
-var sTypeEl = document.getElementById('sType');
-var addBtn = document.getElementById('addBtn');
-var cardsEl = document.getElementById('schoolCards');
-var schoolCountEl = document.getElementById('schoolCount');
-
-// --- ADD SCHOOL HANDLER ---
-function doAddSchool(){
-  var name = sNameEl.value.trim();
-  if(!name){
-    alert('Please enter a school name.');
-    sNameEl.focus();
-    return;
+function makeSelect(opts, val, si, type, idx){
+  var h = '<select data-si="'+si+'" data-'+type+'="'+idx+'">';
+  for(var o=0;o<opts.length;o++){
+    h += '<option value="'+opts[o].val+'"'+(opts[o].val===val?' selected':'')+'>'+opts[o].lbl+'</option>';
   }
-  var type = sTypeEl.value;
-  var def = DEFS[type];
-
-  var newSchool = {
-    name: name,
-    type: type,
-    spaces: [],
-    users: []
-  };
-  for(var i = 0; i < def.spaces.length; i++){
-    var s = def.spaces[i];
-    newSchool.spaces.push({label:s.label, emoji:s.emoji, qty:s.qty, license:'common'});
-  }
-  for(var j = 0; j < def.users.length; j++){
-    var u = def.users[j];
-    newSchool.users.push({label:u.label, emoji:u.emoji, qty:0, license:u.lic});
-  }
-
-  schools.push(newSchool);
-  openIdx = schools.length - 1;
-
-  // Clear input and refocus for next entry
-  sNameEl.value = '';
-  sNameEl.focus();
-
-  // Update UI
-  renderAll();
-
-  // Scroll to show the new school
-  setTimeout(function(){
-    var cards = cardsEl.querySelectorAll('.sc');
-    if(cards.length > 0){
-      cards[cards.length - 1].scrollIntoView({behavior:'smooth', block:'nearest'});
-    }
-  }, 50);
+  return h+'</select>';
 }
 
-// Attach via onclick to ensure it fires
-addBtn.onclick = function(e){
-  e.preventDefault();
-  e.stopPropagation();
-  doAddSchool();
-  return false;
-};
+function schoolTotal(s){
+  var lic=0, cost=0;
+  for(var j=0;j<s.spaces.length;j++){
+    if(s.spaces[j].qty>0 && s.spaces[j].license!=='none'){
+      lic += s.spaces[j].qty;
+      cost += s.spaces[j].qty * PRICES[s.spaces[j].license];
+    }
+  }
+  for(var k=0;k<s.users.length;k++){
+    if(s.users[k].qty>0 && s.users[k].license!=='none'){
+      lic += s.users[k].qty;
+      cost += s.users[k].qty * PRICES[s.users[k].license];
+    }
+  }
+  return {lic:lic, cost:cost};
+}
 
-// Failsafe: also listen on mouseup in case onclick is swallowed
+var schools = [];
+var openIdx = -1;
+var cardsEl = document.getElementById('schoolCards');
+var addBtn = document.getElementById('addBtn');
+var sNameEl = document.getElementById('sName');
+
+function doAddSchool(){
+  var name = sNameEl.value.trim();
+  var type = document.getElementById('sType').value;
+  if(!name){alert('Please enter a school name.');sNameEl.focus();return;}
+  var def = DEFS[type];
+  var s = {name:name, type:type, spaces:[], users:[]};
+  for(var i=0;i<def.spaces.length;i++){
+    s.spaces.push({label:def.spaces[i].label, emoji:def.spaces[i].emoji, qty:def.spaces[i].qty, license:'common'});
+  }
+  for(var i=0;i<def.users.length;i++){
+    s.users.push({label:def.users[i].label, emoji:def.users[i].emoji, qty:0, license:def.users[i].lic});
+  }
+  schools.push(s);
+  openIdx = schools.length - 1;
+  sNameEl.value = '';
+  sNameEl.focus();
+  renderAll();
+  autoSave();
+}
+
+// Multiple event bindings to guarantee the button works
+addBtn.onclick = function(e){e.preventDefault();e.stopPropagation();doAddSchool();return false;};
 addBtn.addEventListener('mouseup', function(e){
-  // Small delay to let onclick fire first; if schools array didn't grow, force it
+  e.preventDefault();
   var countBefore = schools.length;
   setTimeout(function(){
     if(schools.length === countBefore && sNameEl.value.trim()){
@@ -322,40 +299,23 @@ addBtn.addEventListener('mouseup', function(e){
     }
   }, 100);
 }, false);
-
-// Enter key in name field
-sNameEl.onkeydown = function(e){
-  if(e.key === 'Enter' || e.keyCode === 13){
-    e.preventDefault();
-    doAddSchool();
-  }
-};
-
-// --- RENDER ---
-function renderAll(){
-  renderCards();
-  renderSummary();
-  schoolCountEl.textContent = schools.length > 0 ? schools.length + ' school(s) added to district' : '';
-}
+sNameEl.addEventListener('keydown', function(e){if(e.key==='Enter'){e.preventDefault();doAddSchool();}});
 
 function renderCards(){
-  if(schools.length === 0){
-    cardsEl.innerHTML = '';
-    return;
-  }
+  if(schools.length === 0){cardsEl.innerHTML='';return;}
   var html = '';
-  for(var i = 0; i < schools.length; i++){
+  for(var i=0;i<schools.length;i++){
     var s = schools[i];
     var isOpen = (i === openIdx);
-    var tl = s.type === 'elementary' ? 'Elementary' : 'Standard';
-    var icon = s.type === 'elementary' ? '\uD83C\uDFEB' : '\uD83C\uDFDB\uFE0F';
+    var tl = s.type==='elementary' ? 'Elementary' : 'Standard';
+    var icon = s.type==='elementary' ? '\uD83C\uDFEB' : '\uD83C\uDFDB\uFE0F';
 
-    html += '<div class="sc' + (isOpen ? ' open' : '') + '">';
-    html += '<div class="sc-head" data-toggle="' + i + '">';
-    html += '<div class="sc-icon ' + s.type + '">' + icon + '</div>';
-    html += '<h3>' + esc(s.name) + '</h3>';
-    html += '<span class="sc-badge ' + s.type + '">' + tl + '</span>';
-    html += '<button class="btn btn-d" data-remove="' + i + '" type="button">Remove</button>';
+    html += '<div class="sc'+(isOpen?' open':'')+'">';
+    html += '<div class="sc-head" data-toggle="'+i+'">';
+    html += '<div class="sc-icon '+s.type+'">'+icon+'</div>';
+    html += '<h3>'+esc(s.name)+'</h3>';
+    html += '<span class="sc-badge '+s.type+'">'+tl+'</span>';
+    html += '<button class="btn btn-d" data-remove="'+i+'" type="button">Remove</button>';
     html += '<span class="chev">\u203A</span>';
     html += '</div>';
 
@@ -363,187 +323,128 @@ function renderCards(){
       html += '<div class="sc-body" style="display:block">';
       // Spaces
       html += '<div class="sec"><h4>\uD83D\uDCCD Spaces &amp; Common Area Phones</h4>';
-      for(var j = 0; j < s.spaces.length; j++){
+      for(var j=0;j<s.spaces.length;j++){
         var sp = s.spaces[j];
         html += '<div class="srow">';
-        html += '<button class="rm-space" type="button" data-si="' + i + '" data-rmsp="' + j + '" title="Remove this space">&times;</button>';
-        html += '<div class="slbl"><span>' + sp.emoji + '</span> ' + esc(sp.label) + '</div>';
-        html += '<input type="number" value="' + sp.qty + '" min="0" data-si="' + i + '" data-spi="' + j + '">';
-        html += makeSelect(SPACE_OPTS, sp.license, i, 'spi', j);
+        html += '<button class="rm-space" type="button" data-si="'+i+'" data-rmsp="'+j+'" title="Remove this space">&times;</button>';
+        html += '<div class="slbl"><span>'+sp.emoji+'</span> '+esc(sp.label)+'</div>';
+        html += '<input type="number" value="'+sp.qty+'" min="0" data-si="'+i+'" data-spi="'+j+'">';
+        html += makeSelect(SPACE_OPTS, sp.license, i, 'slic', j);
         html += '</div>';
       }
       html += '</div>';
 
-      // Users
-      html += '<div class="sec"><h4>\uD83D\uDC65 Users (Unlimited, Pro, or Basic)</h4><div class="ugrid">';
-      for(var u = 0; u < s.users.length; u++){
+      // Users - SINGLE COLUMN layout (no grid)
+      html += '<div class="sec"><h4>\uD83D\uDC65 Users (Unlimited, Pro, or Basic)</h4>';
+      for(var u=0;u<s.users.length;u++){
         var usr = s.users[u];
         html += '<div class="srow">';
-        html += '<div class="slbl"><span>' + usr.emoji + '</span> ' + esc(usr.label) + '</div>';
-        html += '<input type="number" value="' + usr.qty + '" min="0" data-si="' + i + '" data-ui="' + u + '">';
-        html += makeSelect(USER_OPTS, usr.license, i, 'ui', u);
+        html += '<div class="slbl"><span>'+usr.emoji+'</span> '+esc(usr.label)+'</div>';
+        html += '<input type="number" value="'+usr.qty+'" min="0" data-si="'+i+'" data-ui="'+u+'">';
+        html += makeSelect(USER_OPTS, usr.license, i, 'ulic', u);
         html += '</div>';
       }
-      html += '</div></div>';
+      html += '</div>';
 
       // Subtotal
       var tot = schoolTotal(s);
-      html += '<div class="subtotal"><strong>' + esc(s.name) + ' subtotal:</strong> ' + tot.lic + ' licenses &middot; $' + tot.cost.toFixed(2) + '/mo</div>';
+      html += '<div class="subtotal"><strong>'+esc(s.name)+' subtotal:</strong> '+tot.lic+' licenses &middot; $'+tot.cost.toFixed(2)+'/mo</div>';
       html += '</div>';
     }
-
     html += '</div>';
   }
   cardsEl.innerHTML = html;
 }
 
-function makeSelect(opts, selected, si, attrName, attrVal){
-  var cls = (selected && selected !== 'none') ? ' class="a-' + selected + '"' : '';
-  var h = '<select data-si="' + si + '" data-' + attrName + '="' + attrVal + '"' + cls + '>';
-  for(var i = 0; i < opts.length; i++){
-    h += '<option value="' + opts[i].id + '"' + (selected === opts[i].id ? ' selected' : '') + '>' + opts[i].label + '</option>';
-  }
-  h += '</select>';
-  return h;
-}
-
 function renderSummary(){
-  var panel = document.getElementById('sumPanel');
-  if(!schools.length){panel.style.display='none';return;}
-  panel.style.display='';
-
-  var c = {common:0, pro:0, unlimited:0, basic:0};
-  for(var i = 0; i < schools.length; i++){
-    var s = schools[i];
-    for(var j = 0; j < s.spaces.length; j++){
-      if(s.spaces[j].license !== 'none' && s.spaces[j].qty > 0) c[s.spaces[j].license] += s.spaces[j].qty;
-    }
-    for(var k = 0; k < s.users.length; k++){
-      if(s.users[k].license !== 'none' && s.users[k].qty > 0) c[s.users[k].license] += s.users[k].qty;
-    }
-  }
-  var total = c.common*4 + c.pro*8 + c.unlimited*16;
-  var totalLic = c.common + c.pro + c.unlimited + c.basic;
-
+  var sp = document.getElementById('sumPanel');
+  if(!schools.length){sp.style.display='none';return;}
+  sp.style.display='';
+  var c = {common:0,pro:0,unlimited:0,basic:0};
   var ps = '';
-  for(var p = 0; p < schools.length; p++){
-    var t = schoolTotal(schools[p]);
-    ps += '<span style="display:inline-block;margin-right:18px;margin-bottom:6px;font-size:13px"><strong>' + esc(schools[p].name) + ':</strong> ' + t.lic + ' lic &middot; $' + t.cost.toFixed(2) + '/mo</span>';
+  for(var i=0;i<schools.length;i++){
+    var t = schoolTotal(schools[i]);
+    ps += '<div style="display:flex;justify-content:space-between;padding:4px 0;font-size:13px"><span>'+esc(schools[i].name)+'</span><span style="font-weight:600">'+t.lic+' lic &middot; $'+t.cost.toFixed(2)+'/mo</span></div>';
+    for(var j=0;j<schools[i].spaces.length;j++){
+      var sp2=schools[i].spaces[j];
+      if(sp2.qty>0&&sp2.license!=='none') c[sp2.license]+=sp2.qty;
+    }
+    for(var k=0;k<schools[i].users.length;k++){
+      var u2=schools[i].users[k];
+      if(u2.qty>0&&u2.license!=='none') c[u2.license]+=u2.qty;
+    }
   }
   document.getElementById('perSchool').innerHTML = ps;
-
+  var total = c.common*4 + c.pro*8 + c.unlimited*16;
   document.getElementById('sumGrid').innerHTML =
-    '<div class="sum-item"><div class="n">' + c.common + '</div><div class="l">Common Area</div><div class="c">$' + (c.common*4).toFixed(2) + '/mo</div></div>' +
-    '<div class="sum-item"><div class="n">' + c.pro + '</div><div class="l">Pro</div><div class="c">$' + (c.pro*8).toFixed(2) + '/mo</div></div>' +
-    '<div class="sum-item"><div class="n">' + c.unlimited + '</div><div class="l">Unlimited</div><div class="c">$' + (c.unlimited*16).toFixed(2) + '/mo</div></div>' +
-    '<div class="sum-item"><div class="n">' + c.basic + '</div><div class="l">Basic</div><div class="c">Free</div></div>' +
-    '<div class="sum-item"><div class="n">' + totalLic + '</div><div class="l">Total</div><div class="c">&nbsp;</div></div>';
-
-  document.getElementById('sumTotal').textContent = '$' + total.toFixed(2) + '/mo';
+    '<div class="sum-item si-common"><div class="n">'+c.common+'</div><div class="l">Common Area</div><div class="c">$'+(c.common*4).toFixed(2)+'/mo</div></div>'+
+    '<div class="sum-item si-pro"><div class="n">'+c.pro+'</div><div class="l">Pro</div><div class="c">$'+(c.pro*8).toFixed(2)+'/mo</div></div>'+
+    '<div class="sum-item si-unlimited"><div class="n">'+c.unlimited+'</div><div class="l">Unlimited</div><div class="c">$'+(c.unlimited*16).toFixed(2)+'/mo</div></div>'+
+    '<div class="sum-item si-basic"><div class="n">'+c.basic+'</div><div class="l">Basic</div><div class="c">Free</div></div>';
+  document.getElementById('sumTotal').textContent = '$'+total.toFixed(2)+'/mo';
+  document.getElementById('schoolCount').textContent = schools.length + ' school(s) in district';
 }
 
-function schoolTotal(s){
-  var lic = 0, cost = 0;
-  for(var i = 0; i < s.spaces.length; i++){
-    if(s.spaces[i].license !== 'none' && s.spaces[i].qty > 0){
-      lic += s.spaces[i].qty;
-      cost += s.spaces[i].qty * (PRICES[s.spaces[i].license] || 0);
-    }
-  }
-  for(var j = 0; j < s.users.length; j++){
-    if(s.users[j].license !== 'none' && s.users[j].qty > 0){
-      lic += s.users[j].qty;
-      cost += s.users[j].qty * (PRICES[s.users[j].license] || 0);
-    }
-  }
-  return {lic:lic, cost:cost};
-}
+function renderAll(){renderCards();renderSummary();}
 
-function esc(s){
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-// --- EVENT DELEGATION for school cards ---
+// --- EVENT DELEGATION ---
 cardsEl.addEventListener('click', function(e){
-  // Remove space button
-  var rmSpace = e.target;
-  while(rmSpace && rmSpace !== cardsEl){
-    if(rmSpace.hasAttribute && rmSpace.hasAttribute('data-rmsp')){
+  // Remove space
+  var el = e.target;
+  while(el && el !== cardsEl){
+    if(el.hasAttribute && el.hasAttribute('data-rmsp')){
       e.stopPropagation();
-      var si = parseInt(rmSpace.getAttribute('data-si'));
-      var spi = parseInt(rmSpace.getAttribute('data-rmsp'));
+      var si = parseInt(el.getAttribute('data-si'));
+      var spi = parseInt(el.getAttribute('data-rmsp'));
       schools[si].spaces.splice(spi, 1);
-      renderAll();
-      return;
+      renderAll();autoSave();return;
     }
-    rmSpace = rmSpace.parentNode;
-  }
-
-  // Remove school button
-  var rmBtn = e.target;
-  while(rmBtn && rmBtn !== cardsEl){
-    if(rmBtn.hasAttribute && rmBtn.hasAttribute('data-remove')){
+    if(el.hasAttribute && el.hasAttribute('data-remove')){
       e.stopPropagation();
-      var ri = parseInt(rmBtn.getAttribute('data-remove'));
-      if(confirm('Remove "' + schools[ri].name + '"?')){
-        schools.splice(ri, 1);
-        if(openIdx >= schools.length) openIdx = schools.length - 1;
-        renderAll();
-      }
-      return;
+      var ri = parseInt(el.getAttribute('data-remove'));
+      schools.splice(ri, 1);
+      if(openIdx >= schools.length) openIdx = schools.length - 1;
+      renderAll();autoSave();return;
     }
-    rmBtn = rmBtn.parentNode;
-  }
-
-  // Toggle header
-  var head = e.target;
-  while(head && head !== cardsEl){
-    if(head.hasAttribute && head.hasAttribute('data-toggle')){
-      var idx = parseInt(head.getAttribute('data-toggle'));
-      openIdx = (openIdx === idx) ? -1 : idx;
-      renderAll();
-      return;
+    if(el.hasAttribute && el.hasAttribute('data-toggle')){
+      var ti = parseInt(el.getAttribute('data-toggle'));
+      openIdx = (openIdx === ti) ? -1 : ti;
+      renderAll();return;
     }
-    head = head.parentNode;
+    el = el.parentNode;
   }
 }, false);
 
 cardsEl.addEventListener('input', function(e){
-  var el = e.target;
-  if(el.type !== 'number') return;
-  var si = parseInt(el.getAttribute('data-si'));
-  if(el.hasAttribute('data-spi')){
-    schools[si].spaces[parseInt(el.getAttribute('data-spi'))].qty = Math.max(0, parseInt(el.value) || 0);
-  } else if(el.hasAttribute('data-ui')){
-    schools[si].users[parseInt(el.getAttribute('data-ui'))].qty = Math.max(0, parseInt(el.value) || 0);
+  var t = e.target;
+  if(t.tagName === 'INPUT' && t.type === 'number'){
+    var si = parseInt(t.getAttribute('data-si'));
+    var spi = t.getAttribute('data-spi');
+    var ui = t.getAttribute('data-ui');
+    var val = parseInt(t.value) || 0;
+    if(spi !== null && spi !== undefined && spi !== ''){
+      schools[si].spaces[parseInt(spi)].qty = val;
+    } else if(ui !== null && ui !== undefined && ui !== ''){
+      schools[si].users[parseInt(ui)].qty = val;
+    }
+    renderSummary();autoSave();
   }
-  updateSubtotal(si);
-  renderSummary();
 }, false);
 
 cardsEl.addEventListener('change', function(e){
-  var el = e.target;
-  if(el.tagName !== 'SELECT') return;
-  var si = parseInt(el.getAttribute('data-si'));
-  var val = el.value;
-  if(el.hasAttribute('data-spi')){
-    schools[si].spaces[parseInt(el.getAttribute('data-spi'))].license = val;
-  } else if(el.hasAttribute('data-ui')){
-    schools[si].users[parseInt(el.getAttribute('data-ui'))].license = val;
+  var t = e.target;
+  if(t.tagName === 'SELECT'){
+    var si = parseInt(t.getAttribute('data-si'));
+    var slic = t.getAttribute('data-slic');
+    var ulic = t.getAttribute('data-ulic');
+    if(slic !== null && slic !== undefined && slic !== ''){
+      schools[si].spaces[parseInt(slic)].license = t.value;
+    } else if(ulic !== null && ulic !== undefined && ulic !== ''){
+      schools[si].users[parseInt(ulic)].license = t.value;
+    }
+    renderSummary();autoSave();
   }
-  el.className = (val !== 'none') ? 'a-' + val : '';
-  updateSubtotal(si);
-  renderSummary();
 }, false);
-
-function updateSubtotal(si){
-  var subs = cardsEl.querySelectorAll('.subtotal');
-  // Find the subtotal for this school (it's inside the open card)
-  if(si === openIdx && subs.length > 0){
-    var t = schoolTotal(schools[si]);
-    subs[0].innerHTML = '<strong>' + esc(schools[si].name) + ' subtotal:</strong> ' + t.lic + ' licenses &middot; $' + t.cost.toFixed(2) + '/mo';
-  }
-}
 
 // --- EXPORT CSV ---
 document.getElementById('exportBtn').onclick = function(){
@@ -551,199 +452,111 @@ document.getElementById('exportBtn').onclick = function(){
   var districtName = document.getElementById('dName').value.trim() || 'District';
   var rows = [];
   rows.push(['District','School','School Type','Category','Item','Quantity','License Type','Cost/Unit/Mo','Line Total/Mo']);
-
-  for(var i = 0; i < schools.length; i++){
+  for(var i=0;i<schools.length;i++){
     var s = schools[i];
-    var sType = s.type === 'elementary' ? 'Elementary' : 'Standard';
-    for(var j = 0; j < s.spaces.length; j++){
+    var sType = s.type==='elementary' ? 'Elementary' : 'Standard';
+    for(var j=0;j<s.spaces.length;j++){
       var sp = s.spaces[j];
-      if(sp.qty > 0 && sp.license !== 'none'){
-        var unitCost = PRICES[sp.license] || 0;
-        rows.push([districtName, s.name, sType, 'Space', sp.label, sp.qty, sp.license, '$'+unitCost.toFixed(2), '$'+(sp.qty*unitCost).toFixed(2)]);
+      if(sp.qty>0 && sp.license!=='none'){
+        var uc = PRICES[sp.license]||0;
+        rows.push([districtName,s.name,sType,'Space',sp.label,sp.qty,sp.license,'$'+uc.toFixed(2),'$'+(sp.qty*uc).toFixed(2)]);
       }
     }
-    for(var k = 0; k < s.users.length; k++){
+    for(var k=0;k<s.users.length;k++){
       var u = s.users[k];
-      if(u.qty > 0 && u.license !== 'none'){
-        var uCost = PRICES[u.license] || 0;
-        rows.push([districtName, s.name, sType, 'User', u.label, u.qty, u.license, '$'+uCost.toFixed(2), '$'+(u.qty*uCost).toFixed(2)]);
+      if(u.qty>0 && u.license!=='none'){
+        var uc2 = PRICES[u.license]||0;
+        rows.push([districtName,s.name,sType,'User',u.label,u.qty,u.license,'$'+uc2.toFixed(2),'$'+(u.qty*uc2).toFixed(2)]);
       }
     }
   }
-
-  // Build CSV string
-  var csv = rows.map(function(row){
-    return row.map(function(cell){
-      var c = String(cell);
-      if(c.indexOf(',') > -1 || c.indexOf('"') > -1){
-        return '"' + c.replace(/"/g,'""') + '"';
-      }
-      return c;
-    }).join(',');
-  }).join('\r\n');
-
-  // Download using data URI (works in sandboxed/iframe contexts)
-  var fileName = districtName.replace(/[^a-zA-Z0-9 ]/g,'').replace(/ +/g,'_') + '_Zoom_Phone_Licenses.csv';
-
-  // Try Blob approach first
-  try {
-    var blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
+  var csv = rows.map(function(r){return r.map(function(c){var s=String(c);return s.indexOf(',')>-1||s.indexOf('"')>-1?'"'+s.replace(/"/g,'""')+'"':s;}).join(',');}).join('\r\n');
+  var fileName = districtName.replace(/[^a-zA-Z0-9 ]/g,'').replace(/ +/g,'_')+'_Zoom_Phone_Licenses.csv';
+  try{
+    var blob = new Blob([csv],{type:'text/csv;charset=utf-8;'});
     var url = URL.createObjectURL(blob);
     var a = document.createElement('a');
-    a.href = url;
-    a.download = fileName;
-    a.style.display = 'none';
-    document.body.appendChild(a);
-    a.click();
-    setTimeout(function(){
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    }, 200);
-    document.getElementById('saveStatus').textContent = '\u2705 CSV exported: ' + fileName;
-  } catch(e) {
-    // Fallback: open CSV in new window for manual save
-    var dataUri = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
-    var win = window.open(dataUri, '_blank');
-    if(!win){
-      // If popup blocked, copy to clipboard
-      copyToClipboard(csv, '\u2705 CSV data copied to clipboard. Paste into a text file and save as .csv');
-    } else {
-      document.getElementById('saveStatus').textContent = '\u2705 CSV opened in new tab. Use Save As to download.';
-    }
+    a.href=url;a.download=fileName;a.style.display='none';
+    document.body.appendChild(a);a.click();
+    setTimeout(function(){document.body.removeChild(a);URL.revokeObjectURL(url);},200);
+    document.getElementById('saveStatus').textContent='\u2705 CSV exported: '+fileName;
+  }catch(e){
+    var dataUri='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
+    var win=window.open(dataUri,'_blank');
+    if(!win) copyToClipboard(csv,'\u2705 CSV copied to clipboard. Paste into a text file and save as .csv');
   }
 };
 
-// --- LOCAL STORAGE AUTO-SAVE ---
+// --- LOCAL STORAGE ---
 var LS_KEY = 'zoomPhoneK12Explorer';
-
 function autoSave(){
   try{
-    var data = {
-      district: document.getElementById('dName').value,
-      schools: schools,
-      openIdx: openIdx,
-      savedAt: new Date().toISOString()
-    };
-    localStorage.setItem(LS_KEY, JSON.stringify(data));
+    var data={district:document.getElementById('dName').value,schools:schools,openIdx:openIdx};
+    localStorage.setItem(LS_KEY,JSON.stringify(data));
   }catch(e){}
 }
-
 function autoLoad(){
   try{
-    var raw = localStorage.getItem(LS_KEY);
-    if(!raw) return false;
-    var data = JSON.parse(raw);
-    if(data.district) document.getElementById('dName').value = data.district;
-    if(data.schools && data.schools.length > 0){
-      schools = data.schools;
-      openIdx = (typeof data.openIdx === 'number') ? data.openIdx : -1;
-      return true;
+    var raw=localStorage.getItem(LS_KEY);
+    if(!raw)return;
+    var data=JSON.parse(raw);
+    if(data.schools&&data.schools.length){
+      schools=data.schools;
+      openIdx=typeof data.openIdx==='number'?data.openIdx:0;
+      if(data.district)document.getElementById('dName').value=data.district;
     }
   }catch(e){}
-  return false;
 }
+document.getElementById('dName').addEventListener('input',autoSave);
 
-// Hook auto-save into all state changes
-var origRenderAll = renderAll;
-renderAll = function(){
-  origRenderAll();
-  autoSave();
-};
-
-// Also save when district name changes
-document.getElementById('dName').addEventListener('input', function(){
-  autoSave();
-});
-
-// --- SAVE CONFIG (JSON FILE) ---
+// --- SAVE/LOAD JSON ---
 document.getElementById('saveJsonBtn').onclick = function(){
-  var districtName = document.getElementById('dName').value.trim() || 'District';
-  var data = {
-    district: districtName,
-    schools: schools,
-    exportedAt: new Date().toISOString(),
-    version: '1.0'
-  };
-  var json = JSON.stringify(data, null, 2);
-  var blob = new Blob([json], {type:'application/json'});
-  var url = URL.createObjectURL(blob);
-  var a = document.createElement('a');
-  a.href = url;
-  a.download = districtName.replace(/[^a-zA-Z0-9 ]/g,'').replace(/ +/g,'_') + '_ZoomPhone_Config.json';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-  document.getElementById('saveStatus').textContent = '\u2705 Config saved at ' + new Date().toLocaleTimeString();
+  if(!schools.length){alert('No data to save.');return;}
+  var data={district:document.getElementById('dName').value.trim()||'District',schools:schools};
+  var json=JSON.stringify(data,null,2);
+  var blob=new Blob([json],{type:'application/json'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');
+  a.href=url;a.download=(data.district.replace(/[^a-zA-Z0-9 ]/g,'').replace(/ +/g,'_')||'config')+'_ZoomPhone.json';
+  a.style.display='none';document.body.appendChild(a);a.click();
+  setTimeout(function(){document.body.removeChild(a);URL.revokeObjectURL(url);},200);
+  document.getElementById('saveStatus').textContent='\u2705 Config saved as JSON';
 };
-
-// --- LOAD CONFIG (JSON FILE) ---
-var fileInput = document.getElementById('fileInput');
-document.getElementById('loadJsonBtn').onclick = function(){
-  fileInput.click();
-};
-fileInput.addEventListener('change', function(){
-  var file = this.files[0];
-  if(!file) return;
-  var reader = new FileReader();
-  reader.onload = function(e){
+document.getElementById('loadJsonBtn').onclick = function(){document.getElementById('fileInput').click();};
+document.getElementById('fileInput').onchange = function(e){
+  var file=e.target.files[0];if(!file)return;
+  var reader=new FileReader();
+  reader.onload=function(ev){
     try{
-      var data = JSON.parse(e.target.result);
-      if(data.schools && Array.isArray(data.schools)){
-        schools = data.schools;
-        openIdx = schools.length > 0 ? 0 : -1;
-        if(data.district) document.getElementById('dName').value = data.district;
-        renderAll();
-        document.getElementById('saveStatus').textContent = '\u2705 Config loaded: ' + schools.length + ' school(s)';
-      } else {
-        alert('Invalid config file. No schools data found.');
+      var data=JSON.parse(ev.target.result);
+      if(data.schools){schools=data.schools;openIdx=0;if(data.district)document.getElementById('dName').value=data.district;renderAll();autoSave();
+        document.getElementById('saveStatus').textContent='\u2705 Loaded '+schools.length+' school(s)';
       }
-    }catch(err){
-      alert('Error reading file: ' + err.message);
-    }
+    }catch(err){alert('Invalid JSON file.');}
   };
   reader.readAsText(file);
-  this.value = '';
-});
+  e.target.value='';
+};
 
 // --- COPY/PASTE CONFIG CODE ---
-function copyToClipboard(text, successMsg){
-  var ta = document.createElement('textarea');
-  ta.value = text;
-  ta.style.position = 'fixed';
-  ta.style.left = '-9999px';
-  ta.style.top = '-9999px';
-  document.body.appendChild(ta);
-  ta.focus();
-  ta.select();
-  try{
-    var ok = document.execCommand('copy');
-    document.getElementById('saveStatus').textContent = ok ? (successMsg || '\u2705 Copied to clipboard!') : '\u26A0\uFE0F Could not copy. A popup will show the code to copy manually.';
-    if(!ok) prompt('Copy this config code:', text);
-  }catch(e){
-    prompt('Copy this config code:', text);
-  }
+function copyToClipboard(text,msg){
+  var ta=document.createElement('textarea');
+  ta.value=text;ta.style.position='fixed';ta.style.left='-9999px';
+  document.body.appendChild(ta);ta.focus();ta.select();
+  try{var ok=document.execCommand('copy');
+    document.getElementById('saveStatus').textContent=ok?(msg||'\u2705 Copied!'):'Could not copy.';
+    if(!ok)prompt('Copy this:',text);
+  }catch(e){prompt('Copy this:',text);}
   document.body.removeChild(ta);
 }
 
 function generateConfigCode(){
-  var districtName = document.getElementById('dName').value.trim() || 'District';
-  var compact = {d:districtName, s:[]};
+  var compact={d:document.getElementById('dName').value.trim()||'District',s:[]};
   for(var i=0;i<schools.length;i++){
-    var school = schools[i];
-    var cs = {n:school.name, t:school.type, sp:[], u:[]};
-    for(var j=0;j<school.spaces.length;j++){
-      var sp = school.spaces[j];
-      if(sp.qty > 0 && sp.license !== 'none'){
-        cs.sp.push([sp.label, sp.qty, sp.license]);
-      }
-    }
-    for(var k=0;k<school.users.length;k++){
-      var u = school.users[k];
-      if(u.qty > 0 && u.license !== 'none'){
-        cs.u.push([u.label, u.qty, u.license]);
-      }
-    }
+    var school=schools[i];
+    var cs={n:school.name,t:school.type,sp:[],u:[]};
+    for(var j=0;j<school.spaces.length;j++){var sp=school.spaces[j];if(sp.qty>0&&sp.license!=='none')cs.sp.push([sp.label,sp.qty,sp.license]);}
+    for(var k=0;k<school.users.length;k++){var u=school.users[k];if(u.qty>0&&u.license!=='none')cs.u.push([u.label,u.qty,u.license]);}
     compact.s.push(cs);
   }
   return btoa(unescape(encodeURIComponent(JSON.stringify(compact))));
@@ -751,95 +564,58 @@ function generateConfigCode(){
 
 function loadConfigCode(encoded){
   try{
-    var json = decodeURIComponent(escape(atob(encoded.trim())));
-    var compact = JSON.parse(json);
-    var district = compact.d || 'District';
-    schools = [];
+    var json=decodeURIComponent(escape(atob(encoded.trim())));
+    var compact=JSON.parse(json);
+    schools=[];
     for(var i=0;i<compact.s.length;i++){
-      var cs = compact.s[i];
-      var def = DEFS[cs.t] || DEFS.standard;
-      var school = {name:cs.n, type:cs.t, spaces:[], users:[]};
+      var cs=compact.s[i];
+      var def=DEFS[cs.t]||DEFS.standard;
+      var school={name:cs.n,type:cs.t,spaces:[],users:[]};
       for(var j=0;j<def.spaces.length;j++){
-        var ds = def.spaces[j];
-        var found = null;
-        for(var fj=0;fj<cs.sp.length;fj++){
-          if(cs.sp[fj][0]===ds.label){found=cs.sp[fj];break;}
-        }
-        school.spaces.push({label:ds.label, emoji:ds.emoji, qty:found?found[1]:ds.qty, license:found?found[2]:'common'});
+        var ds=def.spaces[j];var found=null;
+        for(var fj=0;fj<cs.sp.length;fj++){if(cs.sp[fj][0]===ds.label){found=cs.sp[fj];break;}}
+        school.spaces.push({label:ds.label,emoji:ds.emoji,qty:found?found[1]:ds.qty,license:found?found[2]:'common'});
       }
       for(var k=0;k<def.users.length;k++){
-        var du = def.users[k];
-        var foundU = null;
-        for(var fk=0;fk<cs.u.length;fk++){
-          if(cs.u[fk][0]===du.label){foundU=cs.u[fk];break;}
-        }
-        school.users.push({label:du.label, emoji:du.emoji, qty:foundU?foundU[1]:0, license:foundU?foundU[2]:du.lic});
+        var du=def.users[k];var foundU=null;
+        for(var fk=0;fk<cs.u.length;fk++){if(cs.u[fk][0]===du.label){foundU=cs.u[fk];break;}}
+        school.users.push({label:du.label,emoji:du.emoji,qty:foundU?foundU[1]:0,license:foundU?foundU[2]:du.lic});
       }
       schools.push(school);
     }
-    openIdx = schools.length > 0 ? 0 : -1;
-    document.getElementById('dName').value = district;
-    renderAll();
-    return true;
-  }catch(e){
-    return false;
-  }
+    openIdx=0;
+    if(compact.d)document.getElementById('dName').value=compact.d;
+    renderAll();autoSave();return true;
+  }catch(e){return false;}
 }
 
-document.getElementById('copyCodeBtn').onclick = function(){
-  if(!schools.length){alert('No schools to export.');return;}
-  var code = generateConfigCode();
-  copyToClipboard(code, '\u2705 Config code copied! Share it with anyone who has this tool.');
+document.getElementById('copyCodeBtn').onclick=function(){
+  if(!schools.length){alert('No schools.');return;}
+  copyToClipboard(generateConfigCode(),'\u2705 Config code copied! Share with anyone who has this tool.');
 };
-
-document.getElementById('pasteCodeBtn').onclick = function(){
-  var code = prompt('Paste a config code below to load a saved configuration:');
-  if(!code || !code.trim()) return;
-  var ok = loadConfigCode(code);
-  if(ok){
-    document.getElementById('saveStatus').textContent = '\u2705 Config loaded: ' + schools.length + ' school(s)';
-  } else {
-    alert('Invalid config code. Please check and try again.');
-  }
+document.getElementById('pasteCodeBtn').onclick=function(){
+  var code=prompt('Paste a config code:');
+  if(!code||!code.trim())return;
+  if(loadConfigCode(code)){document.getElementById('saveStatus').textContent='\u2705 Config loaded: '+schools.length+' school(s)';}
+  else{alert('Invalid config code.');}
 };
 
 // --- GENERATE SHAREABLE LINK (Data URI) ---
-document.getElementById('shareBtn').onclick = function(){
+document.getElementById('shareBtn').onclick=function(){
   if(!schools.length){alert('No schools to share.');return;}
-
-  // Get the full HTML source of this page
-  var html = document.documentElement.outerHTML;
-
-  // Inject the current state as a script that runs on load
-  var districtName = document.getElementById('dName').value.trim() || 'District';
-  var stateData = JSON.stringify({district: districtName, schools: schools});
-  var injectScript = '<script>window.__PRELOADED_STATE__=' + stateData + ';<\/script>';
-
-  // Insert the preload script just before closing </head>
-  html = '<!DOCTYPE html>\n' + html.replace('</head>', injectScript + '</head>');
-
-  // Also inject a loader that reads __PRELOADED_STATE__ on init
-  // We need to modify the INIT section - replace autoLoad() call
-  html = html.replace(
-    'autoLoad();\nrenderAll();',
-    'if(window.__PRELOADED_STATE__){schools=window.__PRELOADED_STATE__.schools;openIdx=0;document.getElementById("dName").value=window.__PRELOADED_STATE__.district;}else{autoLoad();}\nrenderAll();'
-  );
-
-  // Create data URI
-  var dataUri = 'data:text/html;base64,' + btoa(unescape(encodeURIComponent(html)));
-
-  // Copy to clipboard
-  copyToClipboard(dataUri, '\u2705 Shareable link copied! Paste it into any browser address bar to open.');
-
-  // Also show it in a prompt as fallback
-  document.getElementById('saveStatus').innerHTML = '\u2705 Link copied to clipboard! <br><small style="color:#6b7280">Paste into any browser address bar to open the tool with your data.</small>';
+  var html=document.documentElement.outerHTML;
+  var districtName=document.getElementById('dName').value.trim()||'District';
+  var stateData=JSON.stringify({district:districtName,schools:schools});
+  var injectScript='<script>window.__PRE='+stateData+';<\/script>';
+  html='<!DOCTYPE html>\n'+html.replace('</head>',injectScript+'</head>');
+  html=html.replace('autoLoad();','if(window.__PRE){schools=window.__PRE.schools;openIdx=0;document.getElementById("dName").value=window.__PRE.district;}else{autoLoad();}');
+  var dataUri='data:text/html;base64,'+btoa(unescape(encodeURIComponent(html)));
+  copyToClipboard(dataUri,'\u2705 Shareable link copied! Paste into any browser address bar.');
 };
 
 // --- INIT ---
 autoLoad();
 renderAll();
-
-})();
 </script>
 </body>
 </html>
