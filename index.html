@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>K-12 Zoom Phone Licensing Explorer</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;background:#f4f6f9;color:#1a1a2e;min-height:100vh}
+.header{background:linear-gradient(135deg,#2d8cff 0%,#0b5cff 100%);color:#fff;padding:24px 40px;display:flex;align-items:center;gap:16px;box-shadow:0 2px 12px rgba(0,0,0,.1)}
+.header svg{width:40px;height:40px}
+.header h1{font-size:22px;font-weight:600;letter-spacing:-.3px}
+.header p{font-size:13px;opacity:.85;margin-top:2px}
+.container{max-width:1400px;margin:0 auto;padding:32px 24px}
+
+.panel{background:#fff;border-radius:16px;padding:28px 32px;margin-bottom:28px;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.panel h2{font-size:18px;font-weight:600;margin-bottom:16px;color:#1a1a2e}
+
+.inline-form{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end}
+.form-group{display:flex;flex-direction:column;gap:4px}
+.form-group label{font-size:12px;font-weight:500;color:#6b7280;text-transform:uppercase;letter-spacing:.5px}
+.form-group input,.form-group select{padding:10px 14px;border:1.5px solid #e0e4ea;border-radius:8px;font-size:14px;transition:border-color .2s;width:200px}
+.form-group input[type="number"]{width:80px}
+.form-group input:focus,.form-group select:focus{outline:none;border-color:#2d8cff}
+
+.btn{padding:10px 20px;border:none;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;transition:all .2s}
+.btn-primary{background:#2d8cff;color:#fff}
+.btn-primary:hover{background:#1a7aef;transform:translateY(-1px)}
+.btn-secondary{background:#e8f0fe;color:#2d8cff}
+.btn-secondary:hover{background:#d4e5fd}
+.btn-sm{padding:6px 14px;font-size:12px}
+
+.district-display{display:flex;align-items:center;gap:12px;padding:12px 20px;background:#f0f7ff;border-radius:12px;border:2px solid #2d8cff}
+.district-display h3{font-size:16px;font-weight:600;color:#1a1a2e}
+
+.school-tabs{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap}
+.school-tab{padding:10px 20px;border-radius:24px;font-size:14px;font-weight:500;cursor:pointer;border:2px solid #e0e4ea;background:#fff;transition:all .2s;display:flex;align-items:center;gap:8px}
+.school-tab.active{border-color:#2d8cff;background:#e8f0fe;color:#2d8cff}
+.school-tab:hover:not(.active){border-color:#b0c4de}
+.school-tab .x{width:18px;height:18px;border-radius:50%;background:#e53e3e;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;cursor:pointer;opacity:0;transition:opacity .2s}
+.school-tab:hover .x{opacity:1}
+
+.section-title{font-size:15px;font-weight:700;color:#1a1a2e;margin:20px 0 10px;padding-bottom:6px;border-bottom:2px solid #e0e4ea;display:flex;align-items:center;gap:8px}
+
+.cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-bottom:16px}
+.cat-card{background:#fff;border-radius:14px;border:1px solid #eef0f4;box-shadow:0 2px 8px rgba(0,0,0,.04);overflow:hidden;transition:transform .2s,box-shadow .2s}
+.cat-card:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(0,0,0,.08)}
+.cat-card-head{padding:14px 16px;display:flex;align-items:center;gap:10px}
+.cat-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px}
+.cat-icon.spaces-icon{background:#e8f5e9}
+.cat-icon.common-icon{background:#fff3e0}
+.cat-icon.users-icon{background:#e3f2fd}
+.cat-card-head h4{font-size:13px;font-weight:600;flex:1}
+.cat-card-head .x-btn{width:22px;height:22px;border-radius:50%;border:none;background:#f0f2f5;color:#9ca3af;display:flex;align-items:center;justify-content:center;font-size:14px;cursor:pointer;transition:all .2s}
+.cat-card-head .x-btn:hover{background:#fee2e2;color:#e53e3e}
+.cat-card-body{padding:0 16px 14px}
+.cat-card-body .row{display:flex;align-items:center;justify-content:space-between;padding:6px 0}
+.cat-card-body .row .lbl{font-size:12px;color:#4a5568}
+
+.license-select{padding:5px 8px;border:1.5px solid #e0e4ea;border-radius:6px;font-size:11px;background:#fff;cursor:pointer;min-width:110px}
+.license-select:focus{outline:none;border-color:#2d8cff}
+.license-select.a-common{border-color:#66bb6a;background:#f1f8e9}
+.license-select.a-pro{border-color:#42a5f5;background:#e3f2fd}
+.license-select.a-unlimited{border-color:#ab47bc;background:#f3e5f5}
+.license-select.a-basic{border-color:#bdbdbd;background:#fafafa}
+
+.add-btn{border:2px dashed #d0d5dd;border-radius:14px;display:flex;align-items:center;justify-content:center;min-height:80px;cursor:pointer;transition:all .2s;background:transparent;flex-direction:column;gap:4px}
+.add-btn:hover{border-color:#2d8cff;background:#f8fbff}
+.add-btn span{font-size:12px;color:#6b7280;font-weight:500}
+.add-btn .plus{font-size:22px;color:#2d8cff}
+
+.restore-bar{display:flex;align-items:center;gap:8px;padding:8px 0;flex-wrap:wrap}
+.restore-chip{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:12px;background:#f0f7ff;border:1px solid #bfdbfe;font-size:11px;font-weight:500;color:#2563eb;cursor:pointer;transition:all .2s}
+.restore-chip:hover{background:#dbeafe;border-color:#93c5fd}
+
+.minute-panel{background:#fff;border-radius:16px;padding:24px 28px;margin-bottom:28px;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.minute-panel h2{font-size:18px;font-weight:600;color:#1a1a2e}
+.minute-desc{font-size:13px;color:#6b7280;margin:4px 0 16px}
+.minute-opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.minute-opt{cursor:pointer}
+.minute-opt input{display:none}
+.minute-opt-card{border:2px solid #e0e4ea;border-radius:12px;padding:14px 18px;transition:all .2s;text-align:center}
+.minute-opt input:checked+.minute-opt-card{border-color:#2d8cff;background:#f0f7ff;box-shadow:0 0 0 3px rgba(45,140,255,.1)}
+.minute-opt-card:hover{border-color:#93c5fd}
+.minute-opt-card strong{display:block;font-size:15px;color:#1a1a2e;margin-bottom:2px}
+.minute-opt-card small{font-size:12px;color:#6b7280}
+
+.summary{background:#fff;border-radius:16px;padding:28px 32px;box-shadow:0 2px 12px rgba(0,0,0,.06);position:sticky;bottom:20px}
+.summary h2{font-size:18px;font-weight:600;margin-bottom:16px}
+.summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:16px}
+.summary-item{background:#f8fafc;border-radius:12px;padding:14px;text-align:center}
+.summary-item .num{font-size:26px;font-weight:700;color:#2d8cff}
+.summary-item .lbl{font-size:11px;color:#6b7280;margin-top:3px;text-transform:uppercase;letter-spacing:.5px}
+.summary-item .cost{font-size:12px;color:#1a1a2e;margin-top:3px;font-weight:500}
+.mc-line{background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:10px 16px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between}
+.mc-line .mc-l{font-size:13px;font-weight:500;color:#92400e}
+.mc-line .mc-c{font-size:15px;font-weight:700;color:#d97706}
+.summary-total{display:flex;justify-content:space-between;align-items:center;padding-top:16px;border-top:2px solid #f0f2f5}
+.summary-total .t-label{font-size:16px;font-weight:600}
+.summary-total .t-cost{font-size:24px;font-weight:700;color:#2d8cff}
+
+.legend{background:#fff;border-radius:16px;padding:20px 24px;margin-bottom:24px;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.legend h3{font-size:14px;font-weight:600;margin-bottom:12px;color:#6b7280;text-transform:uppercase;letter-spacing:.5px}
+.legend-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:12px}
+.legend-item{display:flex;align-items:flex-start;gap:12px;padding:12px;border-radius:10px;background:#f8fafc}
+.legend-badge{padding:4px 10px;border-radius:6px;font-size:11px;font-weight:600;white-space:nowrap}
+.legend-badge.b-common{background:#e8f5e9;color:#2e7d32}
+.legend-badge.b-pro{background:#e3f2fd;color:#1565c0}
+.legend-badge.b-unlimited{background:#f3e5f5;color:#7b1fa2}
+.legend-badge.b-basic{background:#f5f5f5;color:#616161}
+.legend-detail{font-size:12px;color:#4a5568;line-height:1.5}
+.legend-detail strong{display:block;font-size:13px;color:#1a1a2e;margin-bottom:2px}
+
+.modal-bg{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.4);z-index:1000;align-items:center;justify-content:center}
+.modal-bg.open{display:flex}
+.modal{background:#fff;border-radius:16px;padding:28px 32px;width:400px;max-width:90vw;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.modal h3{font-size:18px;font-weight:600;margin-bottom:16px}
+.modal .form-group{margin-bottom:12px}
+.modal .form-group input,.modal .form-group select{width:100%}
+.modal-btns{display:flex;gap:10px;justify-content:flex-end;margin-top:20px}
+
+@media(max-width:768px){.container{padding:16px}.cat-grid{grid-template-columns:1fr}.summary-grid{grid-template-columns:repeat(2,1fr)}.inline-form{flex-direction:column;align-items:stretch}.form-group input,.form-group select{width:100%}}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <svg viewBox="0 0 40 40" fill="none"><rect width="40" height="40" rx="8" fill="white" fill-opacity="0.15"/><path d="M12 16C12 14.9 12.9 14 14 14H22C23.1 14 24 14.9 24 16V22C24 23.1 23.1 24 22 24H14C12.9 24 12 23.1 12 22V16Z" fill="white"/><path d="M24 17.5L28 15V23L24 20.5V17.5Z" fill="white"/><rect x="14" y="26" width="12" height="2" rx="1" fill="white" fill-opacity="0.6"/></svg>
+  <div>
+    <h1>K-12 Zoom Phone Licensing Explorer</h1>
+    <p>Assign the right license to every space and person in your district</p>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- License Legend -->
+  <div class="legend">
+    <h3>License Types</h3>
+    <div class="legend-grid">
+      <div class="legend-item"><span class="legend-badge b-common">Common Area</span><div class="legend-detail"><strong>$4.00/mo</strong>Ext-to-Ext, 911, Metered Calls (US/CA), Voicemail. One phone or analog device.</div></div>
+      <div class="legend-item"><span class="legend-badge b-pro">Pro</span><div class="legend-detail"><strong>$8.00/mo</strong>Ext-to-Ext, 911, Metered Calls (US/CA), Voicemail, Advanced PBX. Up to 3 phones + mobile + softphone.</div></div>
+      <div class="legend-item"><span class="legend-badge b-unlimited">Unlimited</span><div class="legend-detail"><strong>$16.00/mo</strong>Ext-to-Ext, 911, Unlimited Calls (US/CA), Voicemail, SMS/MMS, Advanced PBX. Up to 3 phones + mobile + softphone.</div></div>
+      <div class="legend-item"><span class="legend-badge b-basic">Basic</span><div class="legend-detail"><strong>Free</strong>Ext-to-Ext, 911, Voicemail, Basic PBX. No PSTN. Mobile app + softphone only.</div></div>
+    </div>
+  </div>
+
+  <!-- District -->
+  <div class="panel" id="districtPanel">
+    <h2>&#x1F3DB;&#xFE0F; District</h2>
+    <div id="districtForm" class="inline-form">
+      <div class="form-group">
+        <label>District Name</label>
+        <input type="text" id="districtInput" placeholder="e.g. Pentucket Regional SD" style="width:300px">
+      </div>
+      <button type="button" class="btn btn-primary" id="setDistrictBtn">Set District</button>
+    </div>
+    <div id="districtShow" style="display:none">
+      <div class="district-display">
+        <span style="font-size:20px">&#x1F3DB;&#xFE0F;</span>
+        <h3 id="districtLabel"></h3>
+        <button type="button" class="btn btn-secondary btn-sm" id="editDistrictBtn" style="margin-left:auto">Edit</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add School -->
+  <div class="panel" id="addSchoolPanel" style="display:none">
+    <h2>&#x1F3EB; Add a School</h2>
+    <div class="inline-form">
+      <div class="form-group">
+        <label>School Name</label>
+        <input type="text" id="schoolInput" placeholder="e.g. Lincoln Elementary">
+      </div>
+      <button type="button" class="btn btn-primary" id="addSchoolBtn">Add School</button>
+    </div>
+  </div>
+
+  <!-- School Tabs -->
+  <div class="school-tabs" id="schoolTabs"></div>
+
+  <!-- School Content -->
+  <div id="schoolContent"></div>
+
+  <!-- Minute Commit -->
+  <div class="minute-panel" id="minutePanel" style="display:none">
+    <h2>&#x1F4DE; Minute Commit</h2>
+    <p class="minute-desc">Add a metered calling minute pool for Common Area and Pro licenses (US &amp; Canada)</p>
+    <div class="minute-opts" id="minuteOpts">
+      <label class="minute-opt"><input type="radio" name="mc" value="0" checked><div class="minute-opt-card"><strong>No Commit</strong><small>Pay-per-minute only</small></div></label>
+      <label class="minute-opt"><input type="radio" name="mc" value="100"><div class="minute-opt-card"><strong>$100/month</strong><small>&asymp; 4,700 min/mo (US &amp; CA)</small></div></label>
+      <label class="minute-opt"><input type="radio" name="mc" value="250"><div class="minute-opt-card"><strong>$250/month</strong><small>&asymp; 12,000 min/mo (US &amp; CA)</small></div></label>
+    </div>
+  </div>
+
+  <!-- Summary -->
+  <div class="summary" id="summaryPanel" style="display:none">
+    <h2>&#x1F4CA; Licensing Summary</h2>
+    <div class="summary-grid" id="summaryGrid"></div>
+    <div class="mc-line" id="mcLine" style="display:none"></div>
+    <div class="summary-total">
+      <span class="t-label">Estimated Monthly Total</span>
+      <span class="t-cost" id="totalCost">$0.00/mo</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- Modals -->
+<div class="modal-bg" id="modalSpace"><div class="modal"><h3>Add a Space</h3><div class="form-group"><label>Name</label><input type="text" id="mSpaceName" placeholder="e.g. Classroom, Gym"></div><div class="form-group"><label>Quantity</label><input type="number" id="mSpaceQty" value="1" min="1" style="width:80px"></div><div class="modal-btns"><button type="button" class="btn btn-secondary" id="mSpaceCancel">Cancel</button><button type="button" class="btn btn-primary" id="mSpaceOk">Add</button></div></div></div>
+<div class="modal-bg" id="modalCommon"><div class="modal"><h3>Add a Common Area</h3><div class="form-group"><label>Name</label><input type="text" id="mCommonName" placeholder="e.g. Cafeteria, Lobby"></div><div class="form-group"><label>Quantity</label><input type="number" id="mCommonQty" value="1" min="1" style="width:80px"></div><div class="modal-btns"><button type="button" class="btn btn-secondary" id="mCommonCancel">Cancel</button><button type="button" class="btn btn-primary" id="mCommonOk">Add</button></div></div></div>
+<div class="modal-bg" id="modalUser"><div class="modal"><h3>Add a User Category</h3><div class="form-group"><label>Role / Title</label><input type="text" id="mUserName" placeholder="e.g. Teacher, Bus Driver"></div><div class="form-group"><label>Quantity</label><input type="number" id="mUserQty" value="1" min="1" style="width:80px"></div><div class="modal-btns"><button type="button" class="btn btn-secondary" id="mUserCancel">Cancel</button><button type="button" class="btn btn-primary" id="mUserOk">Add</button></div></div></div>
+
+<script>
+(function(){
+  // === DATA ===
+  var licenseOpts = [
+    {id:'none',label:'-- Select --',cost:0},
+    {id:'common',label:'Common Area ($4/mo)',cost:4},
+    {id:'pro',label:'Pro ($8/mo)',cost:8},
+    {id:'unlimited',label:'Unlimited ($16/mo)',cost:16},
+    {id:'basic',label:'Basic (Free)',cost:0}
+  ];
+
+  var defaultSpaces = [
+    {name:'Classroom',icon:'\u{1F4DA}',qty:2},
+    {name:'Central Office',icon:'\u{1F3E2}',qty:1},
+    {name:'Specialist Office',icon:'\u{1FA7A}',qty:1}
+  ];
+  var defaultCommon = [
+    {name:'Cafeteria',icon:'\u{1F37D}\uFE0F',qty:1},
+    {name:'Lobby / Front Entrance',icon:'\u{1F6AA}',qty:1},
+    {name:'Gym',icon:'\u{1F3C0}',qty:1}
+  ];
+  var defaultUsers = [
+    {name:'Principal',icon:'\u{1F454}',qty:1},
+    {name:'Secretary / Admin',icon:'\u{1F4BC}',qty:1},
+    {name:'Nurse',icon:'\u{1FA7A}',qty:1},
+    {name:'Counselor',icon:'\u{1F9D1}',qty:1},
+    {name:'Teacher',icon:'\u{1F469}\u200D\u{1F3EB}',qty:0},
+    {name:'Custodian',icon:'\u{1F9F9}',qty:1},
+    {name:'Cafeteria Worker',icon:'\u{1F9D1}\u200D\u{1F373}',qty:1}
+  ];
+
+  // === STATE ===
+  var districtName = '';
+  var schools = [];
+  var activeIdx = -1;
+  var minuteCommit = 0;
+
+  // === DOM REFS ===
+  var $=function(id){return document.getElementById(id)};
+
+  // === DISTRICT ===
+  $('setDistrictBtn').addEventListener('click', function(){
+    var v = $('districtInput').value.trim();
+    if(!v){alert('Please enter a district name.');return;}
+    districtName = v;
+    $('districtForm').style.display='none';
+    $('districtShow').style.display='block';
+    $('districtLabel').textContent=districtName;
+    $('addSchoolPanel').style.display='block';
+    $('minutePanel').style.display='block';
+  });
+
+  $('editDistrictBtn').addEventListener('click', function(){
+    $('districtForm').style.display='flex';
+    $('districtShow').style.display='none';
+    $('districtInput').value=districtName;
+  });
+
+  // === ADD SCHOOL ===
+  $('addSchoolBtn').addEventListener('click', function(){
+    var v=$('schoolInput').value.trim();
+    if(!v){alert('Please enter a school name.');return;}
+    schools.push({
+      name:v,
+      spaces: defaultSpaces.map(function(s){return{name:s.name,icon:s.icon,qty:s.qty,license:'none',dismissed:false}}),
+      commonAreas: defaultCommon.map(function(c){return{name:c.name,icon:c.icon,qty:c.qty,license:'none',dismissed:false}}),
+      users: defaultUsers.map(function(u){return{name:u.name,icon:u.icon,qty:u.qty,license:'none',dismissed:false}})
+    });
+    activeIdx=schools.length-1;
+    $('schoolInput').value='';
+    render();
+  });
+
+  // === MODALS ===
+  $('mSpaceCancel').addEventListener('click',function(){$('modalSpace').classList.remove('open')});
+  $('mCommonCancel').addEventListener('click',function(){$('modalCommon').classList.remove('open')});
+  $('mUserCancel').addEventListener('click',function(){$('modalUser').classList.remove('open')});
+
+  $('mSpaceOk').addEventListener('click',function(){
+    var n=$('mSpaceName').value.trim(),q=parseInt($('mSpaceQty').value)||1;
+    if(!n){alert('Enter a name.');return;}
+    schools[activeIdx].spaces.push({name:n,icon:'\u{1F4CD}',qty:q,license:'none',dismissed:false});
+    $('modalSpace').classList.remove('open');$('mSpaceName').value='';$('mSpaceQty').value='1';render();
+  });
+  $('mCommonOk').addEventListener('click',function(){
+    var n=$('mCommonName').value.trim(),q=parseInt($('mCommonQty').value)||1;
+    if(!n){alert('Enter a name.');return;}
+    schools[activeIdx].commonAreas.push({name:n,icon:'\u{1F4CD}',qty:q,license:'none',dismissed:false});
+    $('modalCommon').classList.remove('open');$('mCommonName').value='';$('mCommonQty').value='1';render();
+  });
+  $('mUserOk').addEventListener('click',function(){
+    var n=$('mUserName').value.trim(),q=parseInt($('mUserQty').value)||1;
+    if(!n){alert('Enter a name.');return;}
+    schools[activeIdx].users.push({name:n,icon:'\u{1F464}',qty:q,license:'none',dismissed:false});
+    $('modalUser').classList.remove('open');$('mUserName').value='';$('mUserQty').value='1';render();
+  });
+
+  // === MINUTE COMMIT ===
+  $('minuteOpts').addEventListener('change',function(e){
+    if(e.target.name==='mc'){minuteCommit=parseInt(e.target.value)||0;updateSummary();}
+  });
+
+  // === GLOBAL HANDLERS (delegated) ===
+  document.addEventListener('click',function(e){
+    var t=e.target;
+    // School tab click
+    if(t.closest&&t.closest('.school-tab')){
+      var tab=t.closest('.school-tab');
+      if(t.classList.contains('x')){
+        var ri=parseInt(tab.dataset.idx);
+        if(confirm('Remove "'+schools[ri].name+'"?')){schools.splice(ri,1);if(activeIdx>=schools.length)activeIdx=schools.length-1;render();}
+      } else {
+        activeIdx=parseInt(tab.dataset.idx);render();
+      }
+      return;
+    }
+    // Dismiss
+    if(t.dataset.dismiss){
+      var parts=t.dataset.dismiss.split(',');
+      var sec=parts[0],idx=parseInt(parts[1]);
+      schools[activeIdx][sec][idx].dismissed=true;
+      schools[activeIdx][sec][idx].license='none';
+      render();return;
+    }
+    // Restore
+    if(t.dataset.restore||t.parentElement&&t.parentElement.dataset&&t.parentElement.dataset.restore){
+      var el=t.dataset.restore?t:t.parentElement;
+      var parts=el.dataset.restore.split(',');
+      var sec=parts[0],idx=parseInt(parts[1]);
+      schools[activeIdx][sec][idx].dismissed=false;
+      render();return;
+    }
+    // Add buttons
+    if(t.closest&&t.closest('.add-btn')){
+      var ab=t.closest('.add-btn');
+      if(ab.dataset.modal){$(ab.dataset.modal).classList.add('open');}
+      return;
+    }
+  });
+
+  // License change (delegated)
+  document.addEventListener('change',function(e){
+    if(e.target.classList.contains('license-select')){
+      var sec=e.target.dataset.sec,idx=parseInt(e.target.dataset.idx),val=e.target.value;
+      schools[activeIdx][sec][idx].license=val;
+      e.target.className='license-select';
+      if(val!=='none')e.target.classList.add('a-'+val);
+      updateSummary();
+    }
+  });
+
+  // === RENDER ===
+  function render(){
+    renderTabs();
+    renderContent();
+    updateSummary();
+  }
+
+  function renderTabs(){
+    var h='';
+    schools.forEach(function(s,i){
+      h+='<div class="school-tab'+(i===activeIdx?' active':'')+'" data-idx="'+i+'">&#x1F3EB; '+esc(s.name)+'<span class="x">&times;</span></div>';
+    });
+    $('schoolTabs').innerHTML=h;
+  }
+
+  function renderContent(){
+    var c=$('schoolContent');
+    if(activeIdx<0||!schools[activeIdx]){c.innerHTML='';return;}
+    var school=schools[activeIdx];
+    var h='';
+    h+=renderSection('Spaces','&#x1F3EB;','spaces',school.spaces,'spaces-icon','modalSpace');
+    h+=renderSection('Common Areas','&#x1F4DE;','commonAreas',school.commonAreas,'common-icon','modalCommon');
+    h+=renderSection('Users','&#x1F465;','users',school.users,'users-icon','modalUser');
+    c.innerHTML=h;
+  }
+
+  function renderSection(title,icon,sec,items,iconCls,modalId){
+    var active=[],dismissed=[];
+    items.forEach(function(item,i){
+      if(item.dismissed)dismissed.push({item:item,i:i});
+      else active.push({item:item,i:i});
+    });
+
+    var h='<div class="section-title"><span>'+icon+'</span> '+title+'</div>';
+    h+='<div class="cat-grid">';
+    active.forEach(function(obj){
+      var item=obj.item,i=obj.i;
+      var selCls=item.license!=='none'?'a-'+item.license:'';
+      var qtyLabel=item.qty>1?' <span style="font-weight:400;color:#6b7280">(&times;'+item.qty+')</span>':(item.qty===0?' <span style="font-weight:400;color:#6b7280">(varies)</span>':'');
+      h+='<div class="cat-card"><div class="cat-card-head"><div class="cat-icon '+iconCls+'">'+item.icon+'</div><h4>'+esc(item.name)+qtyLabel+'</h4><button class="x-btn" data-dismiss="'+sec+','+i+'" title="Remove">&times;</button></div>';
+      h+='<div class="cat-card-body"><div class="row"><span class="lbl">License per unit</span><select class="license-select '+selCls+'" data-sec="'+sec+'" data-idx="'+i+'">';
+      licenseOpts.forEach(function(lt){h+='<option value="'+lt.id+'"'+(item.license===lt.id?' selected':'')+'>'+lt.label+'</option>';});
+      h+='</select></div></div></div>';
+    });
+    h+='<div class="add-btn" data-modal="'+modalId+'"><span class="plus">+</span><span>Add '+title+'</span></div>';
+    h+='</div>';
+
+    if(dismissed.length>0){
+      h+='<div class="restore-bar"><span style="font-size:11px;color:#6b7280;font-weight:500">Restore:</span>';
+      dismissed.forEach(function(obj){
+        h+='<span class="restore-chip" data-restore="'+sec+','+obj.i+'">\u21A9 '+esc(obj.item.name)+'</span>';
+      });
+      h+='</div>';
+    }
+    return h;
+  }
+
+  // === SUMMARY ===
+  function updateSummary(){
+    var panel=$('summaryPanel');
+    if(schools.length===0){panel.style.display='none';return;}
+    panel.style.display='block';
+    var counts={common:0,pro:0,unlimited:0,basic:0};
+    var prices={common:4,pro:8,unlimited:16,basic:0};
+    schools.forEach(function(school){
+      ['spaces','commonAreas','users'].forEach(function(sec){
+        school[sec].forEach(function(item){
+          if(!item.dismissed&&item.license!=='none'){
+            counts[item.license]+=(item.qty||1);
+          }
+        });
+      });
+    });
+    var costs={};var licTotal=0;
+    Object.keys(counts).forEach(function(k){costs[k]=counts[k]*prices[k];licTotal+=costs[k];});
+    var grand=licTotal+minuteCommit;
+
+    $('summaryGrid').innerHTML=
+      '<div class="summary-item"><div class="num">'+counts.common+'</div><div class="lbl">Common Area</div><div class="cost">$'+costs.common.toFixed(2)+'/mo</div></div>'+
+      '<div class="summary-item"><div class="num">'+counts.pro+'</div><div class="lbl">Pro</div><div class="cost">$'+costs.pro.toFixed(2)+'/mo</div></div>'+
+      '<div class="summary-item"><div class="num">'+counts.unlimited+'</div><div class="lbl">Unlimited</div><div class="cost">$'+costs.unlimited.toFixed(2)+'/mo</div></div>'+
+      '<div class="summary-item"><div class="num">'+counts.basic+'</div><div class="lbl">Basic</div><div class="cost">Free</div></div>';
+
+    var mcEl=$('mcLine');
+    if(minuteCommit>0){
+      var desc=minuteCommit===100?'\u2248 4,700 min/mo (US & CA)':'\u2248 12,000 min/mo (US & CA)';
+      mcEl.style.display='flex';
+      mcEl.innerHTML='<span class="mc-l">&#x1F4DE; Minute Commit \u2014 '+desc+'</span><span class="mc-c">+$'+minuteCommit+'.00/mo</span>';
+    } else {mcEl.style.display='none';}
+
+    $('totalCost').textContent='$'+grand.toFixed(2)+'/mo';
+  }
+
+  function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+  // === ENTER KEY SUPPORT ===
+  $('districtInput').addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();$('setDistrictBtn').click();}});
+  $('schoolInput').addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();$('addSchoolBtn').click();}});
+
+  // Init
+  render();
+})();
+</script>
+</body>
+</html>
