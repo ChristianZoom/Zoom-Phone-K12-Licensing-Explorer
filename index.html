@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>K-12 Zoom Phone Licensing Explorer</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background: #f4f6f9; color: #1a1a2e; min-height: 100vh;
+}
+.header {
+  background: linear-gradient(135deg, #2d8cff 0%, #0b5cff 100%);
+  color: white; padding: 24px 40px; display: flex; align-items: center; gap: 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+}
+.header svg { width: 40px; height: 40px; }
+.header h1 { font-size: 22px; font-weight: 600; }
+.header p { font-size: 13px; opacity: 0.85; margin-top: 2px; }
+.container { max-width: 1400px; margin: 0 auto; padding: 32px 24px; }
+.panel {
+  background: white; border-radius: 16px; padding: 28px 32px; margin-bottom: 24px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+.panel h2 { font-size: 18px; font-weight: 600; margin-bottom: 16px; color: #1a1a2e; }
+.inline-form { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; }
+.form-group { display: flex; flex-direction: column; gap: 4px; }
+.form-group label { font-size: 12px; font-weight: 500; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px; }
+.form-group input, .form-group select {
+  padding: 10px 14px; border: 1.5px solid #e0e4ea; border-radius: 8px; font-size: 14px; transition: border-color 0.2s;
+}
+.form-group input:focus, .form-group select:focus { outline: none; border-color: #2d8cff; }
+.form-group input[type="text"] { width: 200px; }
+.form-group input[type="number"] { width: 80px; }
+.form-group select { width: 180px; }
+.btn { padding: 10px 20px; border: none; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+.btn-primary { background: #2d8cff; color: white; }
+.btn-primary:hover { background: #1a7aef; transform: translateY(-1px); }
+.tabs-row { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+.tab-item {
+  padding: 10px 20px; border-radius: 24px; font-size: 14px; font-weight: 500; cursor: pointer;
+  border: 2px solid #e0e4ea; background: white; transition: all 0.2s; display: flex; align-items: center; gap: 8px;
+}
+.tab-item.active { border-color: #2d8cff; background: #e8f0fe; color: #2d8cff; }
+.tab-item:hover:not(.active) { border-color: #b0c4de; }
+.tab-item.district-tab.active { border-color: #0b5cff; background: #dbeafe; color: #0b5cff; }
+.tab-item .remove-btn {
+  width: 20px; height: 20px; border-radius: 50%; background: #e53e3e; color: white;
+  display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: bold;
+  cursor: pointer; opacity: 0; transition: opacity 0.2s; z-index: 10; line-height: 1; user-select: none;
+}
+.tab-item:hover .remove-btn { opacity: 1; }
+.school-section {
+  background: #f8fafc; border-radius: 12px; padding: 20px 24px; margin-bottom: 20px; border: 1px solid #e0e4ea;
+}
+.school-section h3 { font-size: 15px; font-weight: 600; margin-bottom: 12px; color: #374151; }
+.line-items-table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+.line-items-table th {
+  text-align: left; font-size: 12px; font-weight: 600; color: #6b7280; text-transform: uppercase;
+  letter-spacing: 0.5px; padding: 10px 12px; border-bottom: 2px solid #e0e4ea;
+}
+.line-items-table td { padding: 12px; border-bottom: 1px solid #f0f2f5; font-size: 14px; vertical-align: middle; }
+.line-items-table tr:last-child td { border-bottom: none; }
+.line-items-table .item-icon { font-size: 18px; margin-right: 8px; }
+.line-items-table .item-name { font-weight: 500; }
+.line-items-table .qty-input {
+  width: 70px; padding: 8px 10px; border: 1.5px solid #e0e4ea; border-radius: 6px; font-size: 14px; text-align: center;
+}
+.line-items-table .qty-input:focus { outline: none; border-color: #2d8cff; }
+.license-badge { display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; }
+.license-badge.common { background: #e8f5e9; color: #2e7d32; }
+.license-badge.pro { background: #e3f2fd; color: #1565c0; }
+.license-badge.unlimited { background: #f3e5f5; color: #7b1fa2; }
+.license-badge.did { background: #fef3c7; color: #92400e; }
+.license-badge.basic { background: #f5f5f5; color: #616161; }
+.line-items-table .cost-cell { font-weight: 600; color: #1a1a2e; white-space: nowrap; }
+.line-items-table .remove-row-btn {
+  width: 24px; height: 24px; border-radius: 50%; border: none; background: #fee8e8; color: #e53e3e;
+  font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+}
+.line-items-table .remove-row-btn:hover { background: #fdd; }
+.add-line-form {
+  display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end;
+  margin-top: 16px; padding-top: 16px; border-top: 1px dashed #e0e4ea;
+}
+.minute-commit-box {
+  background: #fffbeb; border: 1.5px solid #fbbf24; border-radius: 12px; padding: 20px 24px; margin-top: 20px;
+}
+.minute-commit-box h3 { font-size: 15px; font-weight: 600; color: #92400e; margin-bottom: 8px; }
+.minute-commit-box .mc-desc { font-size: 13px; color: #78716c; margin-bottom: 14px; line-height: 1.5; }
+.minute-commit-box .mc-tiers { font-size: 13px; color: #374151; margin-bottom: 14px; line-height: 1.8; }
+.minute-commit-box .mc-tiers strong { color: #0b5cff; }
+.minute-commit-box .mc-stats { font-size: 13px; color: #374151; margin-top: 10px; line-height: 1.6; }
+.minute-commit-box .mc-stats strong { color: #0b5cff; }
+.summary-panel {
+  background: white; border-radius: 16px; padding: 28px 32px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06); margin-top: 24px;
+}
+.summary-panel h2 { font-size: 18px; font-weight: 600; margin-bottom: 16px; }
+.summary-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; margin-bottom: 16px;
+}
+.summary-item { background: #f8fafc; border-radius: 12px; padding: 16px; text-align: center; }
+.summary-item .count { font-size: 28px; font-weight: 700; color: #2d8cff; }
+.summary-item .label { font-size: 12px; color: #6b7280; margin-top: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+.summary-item .cost { font-size: 13px; color: #1a1a2e; margin-top: 4px; font-weight: 500; }
+.summary-totals { padding-top: 16px; border-top: 2px solid #f0f2f5; }
+.summary-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; }
+.summary-row .row-label { font-size: 15px; font-weight: 500; color: #374151; }
+.summary-row .row-value { font-size: 18px; font-weight: 700; color: #2d8cff; }
+.summary-row.total { padding-top: 12px; border-top: 1px solid #e0e4ea; margin-top: 8px; }
+.summary-row.total .row-label { font-size: 16px; font-weight: 600; color: #1a1a2e; }
+.summary-row.total .row-value { font-size: 24px; }
+.summary-row.annual .row-value { color: #0b5cff; font-size: 22px; }
+.fusf-note { font-size: 12px; color: #e53e3e; margin-top: 12px; font-weight: 500; font-style: italic; }
+.license-legend {
+  background: white; border-radius: 16px; padding: 20px 24px; margin-bottom: 24px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+.license-legend h3 { font-size: 14px; font-weight: 600; margin-bottom: 12px; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px; }
+.legend-items { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
+.legend-item { display: flex; align-items: flex-start; gap: 12px; padding: 12px; border-radius: 10px; background: #f8fafc; }
+.legend-badge-lg { padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+.legend-badge-lg.common { background: #e8f5e9; color: #2e7d32; }
+.legend-badge-lg.pro { background: #e3f2fd; color: #1565c0; }
+.legend-badge-lg.unlimited { background: #f3e5f5; color: #7b1fa2; }
+.legend-badge-lg.did { background: #fef3c7; color: #92400e; }
+.legend-badge-lg.basic { background: #f5f5f5; color: #616161; }
+.legend-details { font-size: 12px; color: #4a5568; line-height: 1.5; }
+.legend-details strong { display: block; font-size: 13px; color: #1a1a2e; margin-bottom: 2px; }
+.breadcrumb { font-size: 13px; color: #6b7280; margin-bottom: 12px; }
+.breadcrumb span { color: #2d8cff; font-weight: 500; }
+.empty-state { color: #6b7280; padding: 20px; font-size: 14px; text-align: center; }
+@media (max-width: 768px) {
+  .container { padding: 16px; }
+  .summary-grid { grid-template-columns: repeat(2, 1fr); }
+  .inline-form { flex-direction: column; align-items: stretch; }
+  .form-group input[type="text"] { width: 100%; }
+  .form-group select { width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <svg viewBox="0 0 40 40" fill="none">
+    <rect width="40" height="40" rx="8" fill="white" fill-opacity="0.15"/>
+    <path d="M12 16C12 14.9 12.9 14 14 14H22C23.1 14 24 14.9 24 16V22C24 23.1 23.1 24 22 24H14C12.9 24 12 23.1 12 22V16Z" fill="white"/>
+    <path d="M24 17.5L28 15V23L24 20.5V17.5Z" fill="white"/>
+    <rect x="14" y="26" width="12" height="2" rx="1" fill="white" fill-opacity="0.6"/>
+  </svg>
+  <div>
+    <h1>K-12 Zoom Phone Licensing Explorer</h1>
+    <p>Assign the right license to every role and space in your district</p>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- License Legend -->
+  <div class="license-legend">
+    <h3>License Types</h3>
+    <div class="legend-items">
+      <div class="legend-item">
+        <span class="legend-badge-lg common">Common Area</span>
+        <div class="legend-details"><strong>$4.00/mo</strong>Ext-to-Ext, 911, Metered Calls (US/CA), Voicemail. One phone or analog device. Ideal for classrooms, lobbies, cafeterias.</div>
+      </div>
+      <div class="legend-item">
+        <span class="legend-badge-lg pro">Pro</span>
+        <div class="legend-details"><strong>$8.00/mo</strong>Ext-to-Ext, 911, Metered Calls (US/CA), Voicemail, Advanced PBX. Up to 3 phones + mobile app + softphone. For locations or users.</div>
+      </div>
+      <div class="legend-item">
+        <span class="legend-badge-lg unlimited">Unlimited</span>
+        <div class="legend-details"><strong>$16.00/mo</strong>Ext-to-Ext, 911, Unlimited Calls (US/CA), Voicemail, SMS/MMS (DID), Advanced PBX. Up to 3 phones + mobile + softphone. For faculty, admins, nurses.</div>
+      </div>
+      <div class="legend-item">
+        <span class="legend-badge-lg did">DID</span>
+        <div class="legend-details"><strong>$5.00/mo</strong>Direct Inward Dial number (phone number). Required for any device or user that needs an external-facing phone number for inbound/outbound PSTN calls.</div>
+      </div>
+      <div class="legend-item">
+        <span class="legend-badge-lg basic">Basic</span>
+        <div class="legend-details"><strong>Free</strong>Ext-to-Ext, 911, Voicemail, Basic PBX. No PSTN access. Mobile app + softphone only. For paraprofessionals, bus drivers, custodians.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- District Setup -->
+  <div class="panel">
+    <h2>&#x1F3DB;&#xFE0F; Add a District</h2>
+    <div class="inline-form">
+      <div class="form-group">
+        <label>District Name</label>
+        <input type="text" id="districtName" placeholder="e.g. Springfield Public Schools" />
+      </div>
+      <button class="btn btn-primary" id="addDistrictBtn">Add District</button>
+    </div>
+  </div>
+
+  <!-- District Tabs -->
+  <div class="tabs-row" id="districtTabs"></div>
+
+  <!-- School Section -->
+  <div id="schoolSection" style="display:none;">
+    <div class="school-section">
+      <h3>&#x1F3EB; Add a School to <span id="activeDistrictLabel"></span></h3>
+      <div class="inline-form">
+        <div class="form-group">
+          <label>School Name</label>
+          <input type="text" id="schoolName" placeholder="e.g. Lincoln Elementary" />
+        </div>
+        <button class="btn btn-primary" id="addSchoolBtn">Add School</button>
+      </div>
+    </div>
+
+    <div class="tabs-row" id="schoolTabs"></div>
+
+    <div id="lineItemsSection" style="display:none;">
+      <div class="breadcrumb" id="breadcrumb"></div>
+
+      <div class="panel">
+        <h2>&#x1F4CB; Roles &amp; Spaces</h2>
+        <p style="font-size:13px; color:#6b7280; margin-bottom:12px;">Add each type of role or space, set the quantity, and choose a license.</p>
+
+        <table class="line-items-table">
+          <thead>
+            <tr><th>Role / Space</th><th>Quantity</th><th>License</th><th>Monthly Cost</th><th></th></tr>
+          </thead>
+          <tbody id="lineItemsBody"></tbody>
+        </table>
+
+        <div class="add-line-form">
+          <div class="form-group">
+            <label>Role / Space</label>
+            <select id="newItemType">
+              <option value="classroom">Classroom (Wall Phone)</option>
+              <option value="teacher">Teacher</option>
+              <option value="principal">Principal</option>
+              <option value="secretary">Secretary / Admin</option>
+              <option value="nurse">Nurse / Counselor</option>
+              <option value="cafeteria">Cafeteria</option>
+              <option value="custodian">Custodian / Maintenance</option>
+              <option value="bus-driver">Bus Driver</option>
+              <option value="paraprofessional">Paraprofessional / Aide</option>
+              <option value="library">Library</option>
+              <option value="gym">Gym / Athletic Office</option>
+              <option value="lobby">Lobby / Front Desk</option>
+              <option value="did">DID (Phone Number)</option>
+              <option value="other">Other (Custom)</option>
+            </select>
+          </div>
+          <div class="form-group" id="customNameGroup" style="display:none;">
+            <label>Custom Name</label>
+            <input type="text" id="customItemName" placeholder="e.g. IT Office" />
+          </div>
+          <div class="form-group">
+            <label>Quantity</label>
+            <input type="number" id="newItemQty" min="1" value="1" />
+          </div>
+          <div class="form-group">
+            <label>License</label>
+            <select id="newItemLicense">
+              <option value="common">Common Area ($4/mo)</option>
+              <option value="unlimited">Unlimited ($16/mo)</option>
+              <option value="pro">Pro ($8/mo)</option>
+              <option value="did">DID ($5/mo)</option>
+              <option value="basic">Basic (Free)</option>
+            </select>
+          </div>
+          <button class="btn btn-primary" id="addLineItemBtn">Add</button>
+        </div>
+      </div>
+
+      <!-- Minute Commit -->
+      <div class="minute-commit-box">
+        <h3>&#x1F4DE; Metered Calling &mdash; Minute Commit</h3>
+        <p class="mc-desc">Common Area and Pro licenses use metered outbound calling. Select a monthly committed spend tier for PSTN minutes across this district. Unused minutes do not roll over.</p>
+        <div class="mc-tiers">
+          <strong>$100/mo</strong> = 4,700 minutes/mo &nbsp;&bull;&nbsp;
+          <strong>$250/mo</strong> = 12,000 minutes/mo
+        </div>
+        <div class="inline-form">
+          <div class="form-group">
+            <label>Monthly Minute Commit</label>
+            <select id="minuteCommitSelect" style="width:220px;">
+              <option value="0">None</option>
+              <option value="100">$100/mo (4,700 min)</option>
+              <option value="250">$250/mo (12,000 min)</option>
+            </select>
+          </div>
+        </div>
+        <div class="mc-stats" id="minuteCommitStats"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Summary Panel -->
+  <div class="summary-panel" id="summaryPanel" style="display:none;">
+    <h2>&#x1F4CA; Licensing Summary</h2>
+    <div class="summary-grid" id="summaryGrid"></div>
+    <div class="summary-totals" id="summaryTotals"></div>
+    <p class="fusf-note">* Does not include FUSF (Federal Universal Service Fund) fees.</p>
+  </div>
+
+</div>
+
+<script>
+var licenseInfo = {
+  common: { label: 'Common Area', cost: 4, badgeClass: 'common' },
+  pro: { label: 'Pro', cost: 8, badgeClass: 'pro' },
+  unlimited: { label: 'Unlimited', cost: 16, badgeClass: 'unlimited' },
+  did: { label: 'DID', cost: 5, badgeClass: 'did' },
+  basic: { label: 'Basic', cost: 0, badgeClass: 'basic' }
+};
+
+var itemTypes = {
+  'classroom': { icon: '\u{1F4DA}', name: 'Classroom (Wall Phone)', suggestedLicense: 'common' },
+  'teacher': { icon: '\u{1F469}\u200D\u{1F3EB}', name: 'Teacher', suggestedLicense: 'unlimited' },
+  'principal': { icon: '\u{1F454}', name: 'Principal', suggestedLicense: 'unlimited' },
+  'secretary': { icon: '\u{1F4BC}', name: 'Secretary / Admin', suggestedLicense: 'unlimited' },
+  'nurse': { icon: '\u{1FA7A}', name: 'Nurse / Counselor', suggestedLicense: 'unlimited' },
+  'cafeteria': { icon: '\u{1F37D}\uFE0F', name: 'Cafeteria', suggestedLicense: 'common' },
+  'custodian': { icon: '\u{1F9F9}', name: 'Custodian / Maintenance', suggestedLicense: 'basic' },
+  'bus-driver': { icon: '\u{1F68C}', name: 'Bus Driver', suggestedLicense: 'basic' },
+  'paraprofessional': { icon: '\u{1F9D1}\u200D\u{1F3EB}', name: 'Paraprofessional / Aide', suggestedLicense: 'basic' },
+  'library': { icon: '\u{1F4D6}', name: 'Library', suggestedLicense: 'common' },
+  'gym': { icon: '\u{1F3C0}', name: 'Gym / Athletic Office', suggestedLicense: 'common' },
+  'lobby': { icon: '\u{1F3E2}', name: 'Lobby / Front Desk', suggestedLicense: 'common' },
+  'did': { icon: '\u{1F4DE}', name: 'DID (Phone Number)', suggestedLicense: 'did' },
+  'other': { icon: '\u{1F4CC}', name: 'Other', suggestedLicense: 'common' }
+};
+
+var minuteCommitTiers = {
+  0: { cost: 0, minutes: 0 },
+  100: { cost: 100, minutes: 4700 },
+  250: { cost: 250, minutes: 12000 }
+};
+
+var districts = [];
+var activeDistrictIndex = -1;
+var activeSchoolIndex = -1;
+
+function addDistrict() {
+  var name = document.getElementById('districtName').value.trim();
+  if (!name) { alert('Please enter a district name.'); return; }
+  districts.push({ name: name, schools: [], minuteCommit: 0 });
+  activeDistrictIndex = districts.length - 1;
+  activeSchoolIndex = -1;
+  document.getElementById('districtName').value = '';
+  render();
+}
+
+function removeDistrict(index, e) {
+  if (e) { e.stopPropagation(); e.preventDefault(); }
+  if (!confirm('Remove "' + districts[index].name + '" and all its schools?')) return;
+  districts.splice(index, 1);
+  if (activeDistrictIndex >= districts.length) activeDistrictIndex = districts.length - 1;
+  activeSchoolIndex = -1;
+  render();
+}
+
+function switchDistrict(index) {
+  saveMinuteCommit();
+  activeDistrictIndex = index;
+  var d = districts[index];
+  activeSchoolIndex = d.schools.length > 0 ? 0 : -1;
+  render();
+}
+
+function addSchool() {
+  if (activeDistrictIndex < 0) return;
+  var name = document.getElementById('schoolName').value.trim();
+  if (!name) { alert('Please enter a school name.'); return; }
+  districts[activeDistrictIndex].schools.push({ name: name, items: [] });
+  activeSchoolIndex = districts[activeDistrictIndex].schools.length - 1;
+  document.getElementById('schoolName').value = '';
+  render();
+}
+
+function removeSchool(index, e) {
+  if (e) { e.stopPropagation(); e.preventDefault(); }
+  if (activeDistrictIndex < 0) return;
+  var school = districts[activeDistrictIndex].schools[index];
+  if (!confirm('Remove "' + school.name + '" and all its line items?')) return;
+  districts[activeDistrictIndex].schools.splice(index, 1);
+  if (activeSchoolIndex >= districts[activeDistrictIndex].schools.length) {
+    activeSchoolIndex = districts[activeDistrictIndex].schools.length - 1;
+  }
+  render();
+}
+
+function switchSchool(index) {
+  activeSchoolIndex = index;
+  render();
+}
+
+function addLineItem() {
+  if (activeDistrictIndex < 0 || activeSchoolIndex < 0) return;
+  var type = document.getElementById('newItemType').value;
+  var qty = parseInt(document.getElementById('newItemQty').value) || 1;
+  var license = document.getElementById('newItemLicense').value;
+  var name = itemTypes[type].name;
+  if (type === 'other') {
+    var custom = document.getElementById('customItemName').value.trim();
+    if (!custom) { alert('Please enter a custom name.'); return; }
+    name = custom;
+  }
+  districts[activeDistrictIndex].schools[activeSchoolIndex].items.push({
+    type: type, name: name, icon: itemTypes[type].icon, qty: qty, license: license
+  });
+  document.getElementById('newItemQty').value = '1';
+  if (type === 'other') document.getElementById('customItemName').value = '';
+  render();
+}
+
+function removeLineItem(index) {
+  if (activeDistrictIndex < 0 || activeSchoolIndex < 0) return;
+  districts[activeDistrictIndex].schools[activeSchoolIndex].items.splice(index, 1);
+  render();
+}
+
+function updateQty(index, value) {
+  if (activeDistrictIndex < 0 || activeSchoolIndex < 0) return;
+  var qty = Math.max(0, parseInt(value) || 0);
+  districts[activeDistrictIndex].schools[activeSchoolIndex].items[index].qty = qty;
+  var item = districts[activeDistrictIndex].schools[activeSchoolIndex].items[index];
+  var costCell = document.querySelector('[data-cost-index="' + index + '"]');
+  if (costCell) {
+    var cost = qty * licenseInfo[item.license].cost;
+    costCell.textContent = cost === 0 ? 'Free' : '$' + cost.toFixed(2) + '/mo';
+  }
+  updateSummary();
+  updateMinuteCommitStats();
+}
+
+function saveMinuteCommit() {
+  if (activeDistrictIndex < 0) return;
+  var el = document.getElementById('minuteCommitSelect');
+  if (el) districts[activeDistrictIndex].minuteCommit = parseInt(el.value) || 0;
+}
+
+function onMinuteCommitChange() {
+  saveMinuteCommit();
+  updateMinuteCommitStats();
+  updateSummary();
+}
+
+function updateMinuteCommitStats() {
+  var el = document.getElementById('minuteCommitStats');
+  if (!el || activeDistrictIndex < 0) return;
+  var commitVal = districts[activeDistrictIndex].minuteCommit || 0;
+  if (commitVal <= 0) { el.innerHTML = ''; return; }
+  var tier = minuteCommitTiers[commitVal];
+  if (!tier) { el.innerHTML = ''; return; }
+  var meteredCount = 0;
+  districts[activeDistrictIndex].schools.forEach(function(s) {
+    s.items.forEach(function(item) {
+      if (item.license === 'common' || item.license === 'pro') meteredCount += item.qty;
+    });
+  });
+  var perDevice = meteredCount > 0 ? Math.floor(tier.minutes / meteredCount) : 0;
+  el.innerHTML = '<strong>' + tier.minutes.toLocaleString() + ' minutes/mo</strong> at <strong>$' + commitVal + '/mo</strong>' +
+    (meteredCount > 0 ? ' &mdash; across <strong>' + meteredCount + ' metered devices</strong> = ~<strong>' + perDevice.toLocaleString() + ' min/device</strong>/mo' : '');
+}
+
+function render() {
+  renderDistrictTabs();
+  renderSchoolSection();
+  updateSummary();
+}
+
+function renderDistrictTabs() {
+  var container = document.getElementById('districtTabs');
+  var html = '';
+  for (var i = 0; i < districts.length; i++) {
+    html += '<div class="tab-item district-tab ' + (i === activeDistrictIndex ? 'active' : '') + '" data-district-index="' + i + '">' +
+      '\u{1F3DB}\uFE0F ' + districts[i].name +
+      '<span class="remove-btn" data-remove-district="' + i + '">\u00D7</span></div>';
+  }
+  container.innerHTML = html;
+  container.querySelectorAll('.tab-item.district-tab').forEach(function(tab) {
+    tab.addEventListener('click', function(e) {
+      if (e.target.classList.contains('remove-btn')) return;
+      switchDistrict(parseInt(this.getAttribute('data-district-index')));
+    });
+  });
+  container.querySelectorAll('[data-remove-district]').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation(); e.preventDefault();
+      removeDistrict(parseInt(this.getAttribute('data-remove-district')), e);
+    });
+  });
+}
+
+function renderSchoolSection() {
+  var section = document.getElementById('schoolSection');
+  if (activeDistrictIndex < 0 || !districts[activeDistrictIndex]) { section.style.display = 'none'; return; }
+  section.style.display = 'block';
+  document.getElementById('activeDistrictLabel').textContent = districts[activeDistrictIndex].name;
+  renderSchoolTabs();
+  renderLineItems();
+}
+
+function renderSchoolTabs() {
+  var container = document.getElementById('schoolTabs');
+  if (activeDistrictIndex < 0) { container.innerHTML = ''; return; }
+  var schools = districts[activeDistrictIndex].schools;
+  var html = '';
+  for (var i = 0; i < schools.length; i++) {
+    html += '<div class="tab-item ' + (i === activeSchoolIndex ? 'active' : '') + '" data-school-index="' + i + '">' +
+      '\u{1F3EB} ' + schools[i].name +
+      '<span class="remove-btn" data-remove-school="' + i + '">\u00D7</span></div>';
+  }
+  container.innerHTML = html;
+  container.querySelectorAll('.tab-item').forEach(function(tab) {
+    tab.addEventListener('click', function(e) {
+      if (e.target.classList.contains('remove-btn')) return;
+      switchSchool(parseInt(this.getAttribute('data-school-index')));
+    });
+  });
+  container.querySelectorAll('[data-remove-school]').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation(); e.preventDefault();
+      removeSchool(parseInt(this.getAttribute('data-remove-school')), e);
+    });
+  });
+}
+
+function renderLineItems() {
+  var section = document.getElementById('lineItemsSection');
+  if (activeSchoolIndex < 0 || !districts[activeDistrictIndex].schools[activeSchoolIndex]) {
+    section.style.display = 'none'; return;
+  }
+  section.style.display = 'block';
+  var district = districts[activeDistrictIndex];
+  var school = district.schools[activeSchoolIndex];
+  document.getElementById('breadcrumb').innerHTML = '<span>' + district.name + '</span> \u203A <span>' + school.name + '</span>';
+
+  var tbody = document.getElementById('lineItemsBody');
+  if (school.items.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="5" class="empty-state">No items yet. Add roles and spaces below.</td></tr>';
+  } else {
+    var html = '';
+    for (var i = 0; i < school.items.length; i++) {
+      var item = school.items[i];
+      var info = licenseInfo[item.license];
+      var cost = item.qty * info.cost;
+      html += '<tr><td><span class="item-icon">' + item.icon + '</span><span class="item-name">' + item.name + '</span></td>' +
+        '<td><input type="number" class="qty-input" value="' + item.qty + '" min="0" data-qty-index="' + i + '" /></td>' +
+        '<td><span class="license-badge ' + info.badgeClass + '">' + info.label + '</span></td>' +
+        '<td class="cost-cell" data-cost-index="' + i + '">' + (cost === 0 ? 'Free' : '$' + cost.toFixed(2) + '/mo') + '</td>' +
+        '<td><button class="remove-row-btn" data-remove-item="' + i + '">\u00D7</button></td></tr>';
+    }
+    tbody.innerHTML = html;
+  }
+  tbody.querySelectorAll('[data-qty-index]').forEach(function(input) {
+    input.addEventListener('input', function() {
+      updateQty(parseInt(this.getAttribute('data-qty-index')), this.value);
+    });
+  });
+  tbody.querySelectorAll('[data-remove-item]').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      removeLineItem(parseInt(this.getAttribute('data-remove-item')));
+    });
+  });
+
+  var mcSelect = document.getElementById('minuteCommitSelect');
+  if (mcSelect) mcSelect.value = String(district.minuteCommit || 0);
+  updateMinuteCommitStats();
+}
+
+function updateSummary() {
+  var panel = document.getElementById('summaryPanel');
+  var hasItems = false;
+  var counts = { common: 0, pro: 0, unlimited: 0, did: 0, basic: 0 };
+  var prices = { common: 4, pro: 8, unlimited: 16, did: 5, basic: 0 };
+  var totalMinuteCommit = 0;
+
+  for (var d = 0; d < districts.length; d++) {
+    totalMinuteCommit += (districts[d].minuteCommit || 0);
+    for (var s = 0; s < districts[d].schools.length; s++) {
+      for (var it = 0; it < districts[d].schools[s].items.length; it++) {
+        var item = districts[d].schools[s].items[it];
+        counts[item.license] += item.qty;
+        hasItems = true;
+      }
+    }
+  }
+
+  if (!hasItems && totalMinuteCommit <= 0) { panel.style.display = 'none'; return; }
+  panel.style.display = 'block';
+
+  var licenseCost = 0;
+  var gridHtml = '';
+  var keys = ['common', 'pro', 'unlimited', 'did', 'basic'];
+  for (var k = 0; k < keys.length; k++) {
+    var key = keys[k];
+    var cost = counts[key] * prices[key];
+    licenseCost += cost;
+    gridHtml += '<div class="summary-item"><div class="count">' + counts[key] + '</div>' +
+      '<div class="label">' + licenseInfo[key].label + '</div>' +
+      '<div class="cost">' + (cost === 0 && key === 'basic' ? 'Free' : '$' + cost.toFixed(2) + '/mo') + '</div></div>';
+  }
+  if (totalMinuteCommit > 0) {
+    var tierInfo = minuteCommitTiers[totalMinuteCommit];
+    var minLabel = tierInfo ? tierInfo.minutes.toLocaleString() + ' min' : '';
+    gridHtml += '<div class="summary-item"><div class="count" style="font-size:18px;">$' + totalMinuteCommit + '</div>' +
+      '<div class="label">Minute Commit</div><div class="cost">' + minLabel + '/mo</div></div>';
+  }
+  document.getElementById('summaryGrid').innerHTML = gridHtml;
+
+  var monthlyTotal = licenseCost + totalMinuteCommit;
+  var annualTotal = monthlyTotal * 12;
+
+  document.getElementById('summaryTotals').innerHTML =
+    '<div class="summary-row"><span class="row-label">Monthly Licenses</span><span class="row-value">$' + licenseCost.toFixed(2) + '/mo</span></div>' +
+    (totalMinuteCommit > 0 ? '<div class="summary-row"><span class="row-label">Monthly Minute Commit</span><span class="row-value">$' + totalMinuteCommit.toFixed(2) + '/mo</span></div>' : '') +
+    '<div class="summary-row total"><span class="row-label">Total Monthly</span><span class="row-value">$' + monthlyTotal.toFixed(2) + '/mo</span></div>' +
+    '<div class="summary-row total annual"><span class="row-label">Total Annual</span><span class="row-value">$' + annualTotal.toFixed(2) + '/yr</span></div>';
+}
+
+// Event bindings
+document.getElementById('addDistrictBtn').addEventListener('click', addDistrict);
+document.getElementById('addSchoolBtn').addEventListener('click', addSchool);
+document.getElementById('addLineItemBtn').addEventListener('click', addLineItem);
+document.getElementById('districtName').addEventListener('keydown', function(e) { if (e.key === 'Enter') addDistrict(); });
+document.getElementById('schoolName').addEventListener('keydown', function(e) { if (e.key === 'Enter') addSchool(); });
+document.getElementById('newItemType').addEventListener('change', function() {
+  document.getElementById('customNameGroup').style.display = this.value === 'other' ? 'flex' : 'none';
+  document.getElementById('newItemLicense').value = itemTypes[this.value].suggestedLicense;
+});
+document.getElementById('minuteCommitSelect').addEventListener('change', onMinuteCommitChange);
+
+render();
+</script>
+</body>
+</html>
